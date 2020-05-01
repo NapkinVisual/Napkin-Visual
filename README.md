@@ -1,2 +1,2 @@
 # Napkin Visual
-Visualisation module for the NapkinGIS suite
+Visualisation solution for the NapkinGIS suite
