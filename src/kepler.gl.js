@@ -24,7 +24,16 @@ const enhancers = (function craeteEnhancers(redux, middles) {
 }(Redux, middleWares));
 
 const store = (function createStore(redux, enhancers) {
-  const initialState = {};
+  const initialState = {
+    /*keplerGl: {
+      map: {
+        mapState: {
+          latitude: 59.911491,
+          longitude: 10.757933
+        }
+      }
+    }*/
+  };
 
   return redux.createStore(
     reducers,
@@ -32,24 +41,25 @@ const store = (function createStore(redux, enhancers) {
     redux.compose(enhancers)
   );
 }(Redux, enhancers));
+window.__store = store;
 /** END STORE **/
 
 /** COMPONENTS **/
-const KeplerElement = (function (react, keplerGl, mapboxToken) {
+const KeplerElement = (function(react, keplerGl, mapboxToken) {
   return function(props) {
-    var rootElm = react.useRef(null);
+    let rootElm = react.useRef(null);
 
-    var _useState = react.useState({
+    let _useState = react.useState({
       width: window.innerWidth,
       height: window.innerHeight
     });
 
-    var windowDimension = _useState[0],
+    let windowDimension = _useState[0],
         setDimension = _useState[1];
 
     react.useEffect(function sideEffect() {
       function handleResize() {
-        setDimension({width: window.innerWidth, height: window.innerHeight});
+        setDimension({ width: window.innerWidth, height: window.innerHeight });
       };
       window.addEventListener('resize', handleResize);
       return function() { window.removeEventListener('resize', handleResize); };
@@ -57,7 +67,7 @@ const KeplerElement = (function (react, keplerGl, mapboxToken) {
 
     return react.createElement(
       'div',
-      {style: {position: 'absolute', left: 0, width: '100vw', height: '100vh'}},
+      { style: { position: 'absolute', left: 0, width: '100vw', height: '100vh' } },
       react.createElement(keplerGl.KeplerGl, {
         mapboxApiAccessToken: mapboxToken,
         id: 'map',
@@ -72,7 +82,7 @@ const KeplerElement = (function (react, keplerGl, mapboxToken) {
 const app = (function createReactReduxProvider(react, reactRedux, KeplerElement) {
   return react.createElement(
     reactRedux.Provider,
-    {store},
+    { store },
     react.createElement(KeplerElement, null)
   )
 }(React, ReactRedux, KeplerElement));
