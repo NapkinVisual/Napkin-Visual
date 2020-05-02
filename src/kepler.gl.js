@@ -1,5 +1,5 @@
 /**
- *  © UBER INC
+ *  © NAPKIN AS
  */
 
 
@@ -9,7 +9,13 @@ const MAPBOX_TOKEN = 'pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21
 /** STORE **/
 const reducers = (function createReducers(redux, keplerGl) {
   return redux.combineReducers({
-    keplerGl: keplerGl.keplerGlReducer
+    keplerGl: keplerGl.keplerGlReducer.initialState({
+      mapState: {
+        latitude: 59.911491,
+        longitude: 10.757933,
+        zoom: 5
+      }
+    })
   });
 }(Redux, KeplerGl));
 
@@ -24,16 +30,7 @@ const enhancers = (function craeteEnhancers(redux, middles) {
 }(Redux, middleWares));
 
 const store = (function createStore(redux, enhancers) {
-  const initialState = {
-    /*keplerGl: {
-      map: {
-        mapState: {
-          latitude: 59.911491,
-          longitude: 10.757933
-        }
-      }
-    }*/
-  };
+  const initialState = {};
 
   return redux.createStore(
     reducers,
