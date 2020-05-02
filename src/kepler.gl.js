@@ -3,19 +3,12 @@
  */
 
 
-/* Provide MapBox token */
+/* MapBox token */
 const MAPBOX_TOKEN = 'pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21tZjQ3dXpzeHJnIn0.oE5zp040ZzJj5QgCDznweg';
-const WARNING_MESSAGE = 'Please Provide a Mapbox Token';
-
-/* Validate Mapbox Token */
-if ((MAPBOX_TOKEN || '') === '' || MAPBOX_TOKEN === 'PROVIDE_MAPBOX_TOKEN') {
-  alert(WARNING_MESSAGE);
-}
 
 /** STORE **/
 const reducers = (function createReducers(redux, keplerGl) {
   return redux.combineReducers({
-    // mount keplerGl reducer
     keplerGl: keplerGl.keplerGlReducer
   });
 }(Redux, KeplerGl));
@@ -44,20 +37,36 @@ const store = (function createStore(redux, enhancers) {
 /** COMPONENTS **/
 const KeplerElement = (function (react, keplerGl, mapboxToken) {
   return function(props) {
+    var rootElm = react.useRef(null);
+
+    var _useState = react.useState({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+
+    var windowDimension = _useState[0],
+        setDimension = _useState[1];
+
+    react.useEffect(function sideEffect() {
+      function handleResize() {
+        setDimension({width: window.innerWidth, height: window.innerHeight});
+      };
+      window.addEventListener('resize', handleResize);
+      return function() { window.removeEventListener('resize', handleResize); };
+    }, []);
+
     return react.createElement(
       'div',
       {style: {position: 'absolute', left: 0, width: '100vw', height: '100vh'}},
-      react.createElement(
-        keplerGl.KeplerGl,
-        {
-          mapboxApiAccessToken: mapboxToken,
-          id: 'map',
-          width: props.width || window.innerWidth,
-          height: props.height || window.innerHeight
-        }
-      )
-    )
-  }
+      react.createElement(keplerGl.KeplerGl, {
+        mapboxApiAccessToken: mapboxToken,
+        id: 'map',
+        width: windowDimension.width,
+        height: windowDimension.height,
+        appName: 'Napkin Visual'
+      })
+    );
+  };
 }(React, KeplerGl, MAPBOX_TOKEN));
 
 const app = (function createReactReduxProvider(react, reactRedux, KeplerElement) {
