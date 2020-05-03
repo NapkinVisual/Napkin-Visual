@@ -36,7 +36,7 @@ function bindDataModal() {
 }
 function modalData() {
   let el = document.querySelector('div.load-data-modal div.file-uploader div.file-drop-target>div:nth-child(2)>div:nth-child(3)');
-  if(el) el.innerHTML = el.innerHTML.replace(/kepler\.gl/ig, 'Napkin Visual');
+  if(el) el.remove();
 }
 
 
