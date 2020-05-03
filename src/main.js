@@ -49,6 +49,7 @@ function bindExportModal() {
   let html = document.querySelector('div.export-map-modal div.selection>div:nth-child(1)'),
       json = document.querySelector('div.export-map-modal div.selection>div:nth-child(2)');
   modalHTML();
+  modalJSON();
 
   html.addEventListener('click', ev => setTimeout(modalHTML, 20));
   json.addEventListener('click', ev => setTimeout(modalJSON, 20));
@@ -77,7 +78,8 @@ function modalJSON() {
  * Interact with map store to customize data and behavior
  */
 (function customize(keplerGl, store) {
-  // store.dispatch(keplerGl.toggleSplitMap());
+  //store.dispatch(keplerGl.toggleSplitMap());
+  //KeplerGl.KeplerGlSchema.save(store.getState().keplerGl.map);
 
   removeLogo();
   rebrand();
