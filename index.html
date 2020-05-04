@@ -1,8 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
+  	<meta http-equiv="x-ua-compatible" content="ie=edge" />
+  	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
     <title>Napkin Visual</title>
+
+    <link rel="icon" href="assets/logo.svg" />
 
     <!-- Uber Font -->
     <link rel="stylesheet" href="lib/superfine.css" />
@@ -20,21 +25,72 @@
     <!-- Load Kepler.gl -->
     <script type="text/javascript" src="lib/keplergl.min.js"></script>
 
+    <!-- Font-Awesome CDN imports -->
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+  	<!-- Bootstrap CSS CDN import -->
+  	<link rel="stylesheet" href="lib/bootstrap.min.css" />
+
     <style type="text/css">
       body {
         margin: 0; padding: 0; overflow: hidden;
       }
+
+      #download,
+      #share {
+        margin-left: 10px;
+      }
     </style>
   </head>
   <body>
-    <div id="app">
-      <!-- Map will be placed here-->
-    </div>
+    <header>
+      <nav class="navbar navbar-expand-md navbar-dark fixed-top" style="background-color: rgb(36, 39, 48); min-height: 56px;">
+
+        <a class="navbar-brand" href="#">
+          <img src="assets/logo.svg" width="30" height="30" class="d-inline-block align-top" alt="Napkin GIS logo" />
+        </a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Help</a>
+            </li>
+          </ul>
+
+  				<a class="btn btn-outline-light" role="button" href="#" id="download">
+            <i class="fa fa-download" aria-hidden="true"></i>
+          </a>
+
+          <a class="btn btn-outline-light" role="button" href="#" id="share">
+            <i class="fa fa-share-alt" aria-hidden="true"></i>
+          </a>
+        </div>
+
+      </nav>
+    </header>
+
+    <main role="main">
+      <div id="app">
+        <!-- Map will be placed here-->
+      </div>
+    </main>
 
     <!-- Load React component -->
     <script type="text/javascript" src="src/kepler.gl.js"></script>
 
     <!-- Interact with Kepler map store -->
     <script type="text/javascript" src="src/main.js"></script>
+
+    <!-- jQuery - Popper.js - Bootstrap JS CDN imports -->
+    <script src="lib/jquery-3.3.1.min.js"></script>
+    <script src="lib/popper.min.js"></script>
+    <script src="lib/bootstrap.min.js"></script>
   </body>
 </html>

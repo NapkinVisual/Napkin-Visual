@@ -64,12 +64,12 @@ const KeplerElement = (function(react, keplerGl, mapboxToken) {
 
     return react.createElement(
       'div',
-      { style: { position: 'absolute', left: 0, width: '100vw', height: '100vh' } },
+      { style: { position: 'absolute', left: 0, top: 56, width: '100vw', height: 'calc(100vh - 56px)' } },
       react.createElement(keplerGl.KeplerGl, {
         mapboxApiAccessToken: mapboxToken,
         id: 'map',
         width: windowDimension.width,
-        height: windowDimension.height,
+        height: windowDimension.height - 56,
         appName: 'Napkin Visual'
       })
     );

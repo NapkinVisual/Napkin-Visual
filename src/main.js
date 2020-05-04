@@ -73,13 +73,15 @@ function modalJSON() {
 
 
 
+let exportMapData;
+
 /**
  * Customize map.
  * Interact with map store to customize data and behavior
  */
 (function customize(keplerGl, store) {
   //store.dispatch(keplerGl.toggleSplitMap());
-  //KeplerGl.KeplerGlSchema.save(store.getState().keplerGl.map);
+  exportMapData = function() { return KeplerGl.KeplerGlSchema.save(store.getState().keplerGl.map); };
 
   removeLogo();
   rebrand();
