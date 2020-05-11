@@ -11,9 +11,13 @@ const reducers = (function createReducers(redux, keplerGl) {
   return redux.combineReducers({
     keplerGl: keplerGl.keplerGlReducer.initialState({
       mapState: {
-        latitude: 59.911491,
-        longitude: 10.757933,
+        latitude: 60,
+        longitude: 8,
         zoom: 5
+      },
+      mapStyle: {
+        styleType: 'light'
+        //threeDBuildingColor: [ 192, 192, 192 ]
       }
     })
   });
@@ -38,7 +42,6 @@ const store = (function createStore(redux, enhancers) {
     redux.compose(enhancers)
   );
 }(Redux, enhancers));
-window.__store = store;
 /** END STORE **/
 
 /** COMPONENTS **/
@@ -64,13 +67,15 @@ const KeplerElement = (function(react, keplerGl, mapboxToken) {
 
     return react.createElement(
       'div',
-      { style: { position: 'absolute', left: 0, top: 56, width: '100vw', height: 'calc(100vh - 56px)' } },
+      { style: { position: 'absolute', left: 0, top: 45, width: '100vw', height: 'calc(100vh - 45px)' } },
+      //{ style: { position: 'absolute', left: 0, width: '100vw', height: '100vh' } },
       react.createElement(keplerGl.KeplerGl, {
         mapboxApiAccessToken: mapboxToken,
         id: 'map',
         width: windowDimension.width,
-        height: windowDimension.height - 56,
-        appName: 'Napkin Visual'
+        height: windowDimension.height - 45,
+        appName: 'Napkin Visual',
+        appWebsite: 'https://napkingis.no'
       })
     );
   };
