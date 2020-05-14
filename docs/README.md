@@ -36,15 +36,11 @@ Layer Attributes: Color/ Color Based On, Filter by Count Percentile, Opacity, He
 
 ## Heatmap
 
-![Heatmap layer](pics/c-heat-map.png "Heatmap layer")
-
 Heatmap is a graphical representation of data in which data values are represented as colors.
 
 Layer Attributes: Color, Opacity, Radius, Weight
 
 ## Cluster
-
-![Cluster layer](pics/c-cluster-layer.png "Cluster layer")
 
 Cluster layers visualize aggregated data based on a geospatial radius.
 
@@ -65,7 +61,6 @@ To see the icon menu, create a new icon layer and click how to draw an icon laye
 ## Grid
 
 ![Grid layer](pics/image21.png "Grid layer")
-![3D Grid layer](pics/c-grid-layer.png "3D Grid layer")
 
 Grids layers are similar to heatmaps. They show the density of points. They provide visual discrepancy in a map where multiple heatmap-style layers are present.
 
