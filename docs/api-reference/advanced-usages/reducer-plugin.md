@@ -1,8 +1,8 @@
 # Reducer Plugin
 
-For advanced users, who want to add additional action handler to kepler.gl reducer, kepler.gl provides a reducer plugin function. `Reducer.plugin` will take additional action handlers and return a new reducer function. Plugin is only meant to be called where the store is initialized. The state passed into the additional action handler is the instance state.
+For advanced users, who want to add additional action handler to the reducer, we provide a reducer plugin function. `Reducer.plugin` will take additional action handlers and return a new reducer function. Plugin is only meant to be called where the store is initialized. The state passed into the additional action handler is the instance state.
 
-`Reducer.plugin` will allow advanced users to extend the kepler.gl reducer behavior. Here is an example of adding an additional action `HIDE_AND_SHOW_SIDE_PANEL` handler that modifies the `uiState`.
+`Reducer.plugin` will allow advanced users to extend the reducer behavior. Here is an example of adding an additional action `HIDE_AND_SHOW_SIDE_PANEL` handler that modifies the `uiState`.
 
 ```js
 import {combineReducers} from 'redux';
@@ -25,7 +25,7 @@ const reducers = combineReducers({
 });
 ```
 
-Note that, reducer plugin **should not be used to override default kepler.gl actions** The following code will not change `SET_FILTER`, because plugins are handled after default actions.
+Note that, reducer plugin **should not be used to override default actions** The following code will not change `SET_FILTER`, because plugins are handled after default actions.
 
 ```js
 const customizedKeplerGlReducer = keplerGlReducer

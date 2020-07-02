@@ -138,9 +138,9 @@ The json object should contain `datasets` and `config`.
 
 **Parameters**
 
--   `rawData` **[Object][17]** 
-    -   `rawData.datasets` **[Array][16]** 
-    -   `rawData.config` **[Object][17]** 
+-   `rawData` **[Object][17]**
+    -   `rawData.datasets` **[Array][16]**
+    -   `rawData.config` **[Object][17]**
 
 **Examples**
 

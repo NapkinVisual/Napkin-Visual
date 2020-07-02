@@ -1,6 +1,6 @@
 # Cloud Providers
 
-The kepler.gl application does not have a backend, however it offers integration point for optional commercial backends. Each backend can integrate with kepler by adding a "cloud provider" object to kepler's global list of cloud providers.
+The application does not have a backend, however it offers integration point for optional commercial backends. Each backend can integrate with the map by adding a "cloud provider" object to the global list of cloud providers.
 
 These objects must implement certain minimal set of methods, and can optionally immplement others, depending on the capability of the backend.
 
@@ -22,11 +22,11 @@ Cloud-providers providers can implement the following properties
 | `displayName` | Display name |
 | `icon` | React Element to render as Icon |
 | `thumbnail` | Size of the thumbnail image of the map that required by the provider |
-| `hasPrivateStorage` | To participate in kepler's build-in private map saving function | required |
-| `hasSharingUrl` | To participate in kepler's build-in share map via URL function | required |
+| `hasPrivateStorage` | To participate in the build-in private map saving function | required |
+| `hasSharingUrl` | To participate in the build-in share map via URL function | required |
 | `getShareUrl` | To show user the shared Url of the map |
 | `getMapUrl` | To update browser location once a map has been saved / loaded |
-| `getAccessToken` | To participate in kepler's built-in oauth login routes |
+| `getAccessToken` | To participate in the built-in oauth login routes |
 | `getUserName` | To display user name of the logged in user |
 | `login` | Method called to perform user login | required |
 | `logout` | Method called to logout an user | required |
@@ -37,7 +37,7 @@ Cloud-providers providers can implement the following properties
 
 ## Adding a new Cloud Provider
 
-An instance of the provider is added to array of cloud providers in the file `src/cloud-providers/providers.js` then passed to kepler.gl demo app. An example provider: [Dropbox Provider](https://github.com/keplergl/kepler.gl/blob/master/examples/demo-app/src/cloud-providers/dropbox-provider.js)
+An instance of the provider is added to array of cloud providers in the file `src/cloud-providers/providers.js` then passed to demo app. An example provider: [Dropbox Provider](https://github.com/keplergl/kepler.gl/blob/master/examples/demo-app/src/cloud-providers/dropbox-provider.js)
 
 ```js
 import {Provider} from 'kepler.gl/cloud-providers';

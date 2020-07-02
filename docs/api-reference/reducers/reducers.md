@@ -13,7 +13,7 @@
 
 ## keplerGlReducer
 
-Kepler.gl reducer to be mounted to your store. You can mount `keplerGlReducer` at property `keplerGl`, if you choose
+The reducer to be mounted to your store. You can mount `keplerGlReducer` at property `keplerGl`, if you choose
 to mount it at another address e.g. `foo` you will need to specify it when you mount `KeplerGl` component in your app with `getState: state => state.foo`
 
 **Examples**
@@ -64,12 +64,12 @@ const myKeplerGlReducer = keplerGlReducer
 
 ### keplerGlReducer.plugin
 
-Returns a kepler.gl reducer that will also pass each action through additional reducers spiecified.
+Returns a reducer that will also pass each action through additional reducers spiecified.
 The parameter should be either a reducer map or a reducer function.
 The state passed into the additional action handler is the instance state.
 It will include all the subreducers `visState`, `uiState`, `mapState` and `mapStyle`.
 `.plugin` is only meant to be called once when mounting the keplerGlReducer to the store.
-**Note** This is an advanced option to give you more freedom to modify the internal state of the kepler.gl instance.
+**Note** This is an advanced option to give you more freedom to modify the internal state of the instance.
 You should only use this to adding additional actions instead of replacing default actions.
 
 **Parameters**
@@ -109,7 +109,7 @@ Connect subreducer `mapState`, used with `injectComponents`. Learn more at
 
 **Parameters**
 
--   `reduxState` **any** 
+-   `reduxState` **any**
 
 ## mapStyleLens
 
@@ -118,7 +118,7 @@ Connect subreducer `mapStyle`, used with `injectComponents`. Learn more at
 
 **Parameters**
 
--   `reduxState` **any** 
+-   `reduxState` **any**
 
 ## providerStateLens
 
@@ -127,7 +127,7 @@ Connect subreducer `providerState`, used with `injectComponents`. Learn more at
 
 **Parameters**
 
--   `reduxState` **any** 
+-   `reduxState` **any**
 
 ## uiStateLens
 
@@ -136,7 +136,7 @@ Connect subreducer `uiState`, used with `injectComponents`. Learn more at
 
 **Parameters**
 
--   `reduxState` **any** 
+-   `reduxState` **any**
 
 ## visStateLens
 
@@ -145,7 +145,7 @@ Connect subreducer `visState`, used with `injectComponents`. Learn more at
 
 **Parameters**
 
--   `reduxState` **any** 
+-   `reduxState` **any**
 
 [1]: #keplerglreducer
 

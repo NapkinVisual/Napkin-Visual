@@ -15,7 +15,7 @@
 
 ## mapStyleUpdaters
 
-Updaters for `mapStyle`. Can be used in your root reducer to directly modify kepler.gl's state.
+Updaters for `mapStyle`. Can be used in your root reducer to directly modify the state.
 Read more about [Using updaters][21]
 
 **Examples**
@@ -76,10 +76,10 @@ populate mapStyles.
 
 **Parameters**
 
--   `state` **[Object][23]** 
--   `action` **[Object][23]** 
-    -   `action.payload` **[Object][23]** 
-        -   `action.payload.mapboxApiAccessToken` **[string][22]** 
+-   `state` **[Object][23]**
+-   `action` **[Object][23]**
+    -   `action.payload` **[Object][23]**
+        -   `action.payload.mapboxApiAccessToken` **[string][22]**
 
 Returns **[Object][23]** nextState
 
@@ -114,11 +114,11 @@ Callback when a custom map style object is received
 **Parameters**
 
 -   `state` **[Object][23]** `mapStyle`
--   `action` **[Object][23]** 
-    -   `action.payload` **[Object][23]** 
-        -   `action.payload.icon` **[string][22]** 
-        -   `action.payload.style` **[Object][23]** 
-        -   `action.payload.error` **any** 
+-   `action` **[Object][23]**
+    -   `action.payload` **[Object][23]**
+        -   `action.payload.icon` **[string][22]**
+        -   `action.payload.style` **[Object][23]**
+        -   `action.payload.error` **any**
     -   `action.payload.icon`  
     -   `action.payload.style`  
     -   `action.payload.error`  
@@ -134,7 +134,7 @@ Callback when load map style error
 **Parameters**
 
 -   `state` **[Object][23]** `mapStyle`
--   `action` **[Object][23]** 
+-   `action` **[Object][23]**
     -   `action.payload` **any** error
 
 Returns **[Object][23]** nextState
@@ -148,7 +148,7 @@ Callback when load map style success
 **Parameters**
 
 -   `state` **[Object][23]** `mapStyle`
--   `action` **[Object][23]** 
+-   `action` **[Object][23]**
     -   `action.payload` **[Object][23]** a `{[id]: style}` mapping
 
 Returns **[Object][23]** nextState
@@ -162,7 +162,7 @@ Update `visibleLayerGroups`to change layer group visibility
 **Parameters**
 
 -   `state` **[Object][23]** `mapStyle`
--   `action` **[Object][23]** 
+-   `action` **[Object][23]**
     -   `action.payload` **[Object][23]** new config `{visibleLayerGroups: {label: false, road: true, background: true}}`
 
 Returns **[Object][23]** nextState
@@ -176,8 +176,8 @@ Change to another map style. The selected style should already been loaded into 
 **Parameters**
 
 -   `state` **[Object][23]** `mapStyle`
--   `action` **[Object][23]** 
-    -   `action.payload` **[string][22]** 
+-   `action` **[Object][23]**
+    -   `action.payload` **[string][22]**
 
 Returns **[Object][23]** nextState
 

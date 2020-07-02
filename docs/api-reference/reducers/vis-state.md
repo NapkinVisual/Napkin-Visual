@@ -38,7 +38,7 @@
 
 ## visStateUpdaters
 
-Updaters for `visState` reducer. Can be used in your root reducer to directly modify kepler.gl's state.
+Updaters for `visState` reducer. Can be used in your root reducer to directly modify the state.
 Read more about [Using updaters][67]
 
 **Examples**
@@ -111,7 +111,7 @@ When select dataset for export, apply cpu filter to selected dataset
 **Parameters**
 
 -   `state` **[Object][69]** `visState`
--   `action` **[Object][69]** 
+-   `action` **[Object][69]**
     -   `action.dataId` **[string][70]** dataset id
 
 Returns **[Object][69]** nextState
@@ -138,24 +138,24 @@ Type: [Object][69]
 
 #### Properties
 
--   `layers` **[Array][75]** 
--   `layerData` **[Array][75]** 
--   `layerToBeMerged` **[Array][75]** 
--   `layerOrder` **[Array][75]** 
--   `filters` **[Array][75]** 
--   `filterToBeMerged` **[Array][75]** 
--   `datasets` **[Array][75]** 
--   `editingDataset` **[string][70]** 
--   `interactionConfig` **[Object][69]** 
--   `interactionToBeMerged` **[Object][69]** 
--   `layerBlending` **[string][70]** 
--   `hoverInfo` **[Object][69]** 
--   `clicked` **[Object][69]** 
--   `mousePos` **[Object][69]** 
+-   `layers` **[Array][75]**
+-   `layerData` **[Array][75]**
+-   `layerToBeMerged` **[Array][75]**
+-   `layerOrder` **[Array][75]**
+-   `filters` **[Array][75]**
+-   `filterToBeMerged` **[Array][75]**
+-   `datasets` **[Array][75]**
+-   `editingDataset` **[string][70]**
+-   `interactionConfig` **[Object][69]**
+-   `interactionToBeMerged` **[Object][69]**
+-   `layerBlending` **[string][70]**
+-   `hoverInfo` **[Object][69]**
+-   `clicked` **[Object][69]**
+-   `mousePos` **[Object][69]**
 -   `splitMaps` **[Array][75]** a list of objects of layer availabilities and visibilities for each map
--   `layerClasses` **[Object][69]** 
--   `animationConfig` **[Object][69]** 
--   `editor` **[Object][69]** 
+-   `layerClasses` **[Object][69]**
+-   `animationConfig` **[Object][69]**
+-   `editor` **[Object][69]**
 
 ### interactionConfigChangeUpdater
 
@@ -255,7 +255,7 @@ Trigger loading file error
 
 -   `state` **[Object][69]** `visState`
 -   `action` **[Object][69]** action
-    -   `action.error` **any** 
+    -   `action.error` **any**
 
 Returns **[Object][69]** nextState
 
@@ -381,7 +381,7 @@ Set the property of a filter plot
 
 -   `state` **[Object][69]** `visState`
 -   `action` **[Object][69]** action
-    -   `action.idx` **[Number][74]** 
+    -   `action.idx` **[Number][74]**
     -   `action.newProp` **[Object][69]** key value mapping of new prop `{yAxis: 'histogram'}`
 
 Returns **[Object][69]** nextState
@@ -453,8 +453,8 @@ Toggle visibility of a layer in a split map
 
 **Parameters**
 
--   `state` **[Object][69]** 
--   `action` **[Object][69]** 
+-   `state` **[Object][69]**
+-   `action` **[Object][69]**
     -   `action.mapIndex` **[Number][74]** index of the split map
     -   `action.layerId` **[string][70]** id of the layer
 

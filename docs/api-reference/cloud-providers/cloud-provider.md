@@ -23,9 +23,9 @@ The default provider class
 
 **Parameters**
 
--   `props` **[object][27]** 
-    -   `props.name` **[string][28]** 
-    -   `props.displayName` **[string][28]** 
+-   `props` **[object][27]**
+    -   `props.name` **[string][28]**
+    -   `props.displayName` **[string][28]**
     -   `props.icon` **ReactElement** React element
     -   `props.thumbnail` **[object][27]** thumbnail size object
         -   `props.thumbnail.width` **[number][29]** thumbnail width in pixels
@@ -59,14 +59,14 @@ async downloadMap(loadParams) {
      datasets: [],
      config: {},
      info: {
-       app: 'kepler.gl',
+       app: '[app_name]',
        created_at: ''
        title: 'test map',
        description: 'Hello this is my test dropbox map'
      }
    },
    // pass csv here if your provider currently only support save / load file as csv
-   format: 'keplergl'
+   format: 'csv'
  };
 
  return downloadMap;
@@ -83,7 +83,7 @@ Returns **[boolean][31]** true if a user already logged in
 
 ### getMapUrl
 
-This method is called by kepler.gl demo app to pushes a new location to history, becoming the current location.
+This method is called by demo app to pushes a new location to history, becoming the current location.
 
 **Parameters**
 
@@ -111,13 +111,13 @@ Returns **[string][28]** true if a user already logged in
 
 Whether this provider support upload map to a private storage. If truthy, user will be displayed with the storage save icon on the top right of the side bar.
 
-Returns **[boolean][31]** 
+Returns **[boolean][31]**
 
 ### hasSharingUrl
 
 Whether this provider support share map via a public url, if truthy, user will be displayed with a share map via url under the export map option on the top right of the side bar
 
-Returns **[boolean][31]** 
+Returns **[boolean][31]**
 
 ### listMaps
 
@@ -131,7 +131,7 @@ async listMaps() {
      {
        id: 'a',
        title: 'My map',
-       description: 'My first kepler map',
+       description: 'My first map',
        imageUrl: 'http://',
        lastModification: 1582677787000,
        privateMap: false,
@@ -146,7 +146,7 @@ Returns **[Array][32]&lt;[Viz][33]>** an array of Viz objects
 ### login
 
 This method will be called when user click the login button in the cloud provider tile.
-Upon login success, `onCloudLoginSuccess` has to be called to notify kepler.gl UI
+Upon login success, `onCloudLoginSuccess` has to be called to notify UI
 
 **Parameters**
 
@@ -155,7 +155,7 @@ Upon login success, `onCloudLoginSuccess` has to be called to notify kepler.gl U
 ### logout
 
 This method will be called when user click the logout button under the cloud provider tile.
-Upon login success, `onCloudLoginSuccess` has to be called to notify kepler.gl UI
+Upon login success, `onCloudLoginSuccess` has to be called to notify UI
 
 **Parameters**
 
@@ -163,34 +163,34 @@ Upon login success, `onCloudLoginSuccess` has to be called to notify kepler.gl U
 
 ### uploadMap
 
-This method will be called to upload map for saving and sharing. Kepler.gl will package map data, config, title, description and thumbnail for upload to storage.
+This method will be called to upload map for saving and sharing. The map will package map data, config, title, description and thumbnail for upload to storage.
 With the option to overwrite already saved map, and upload as private or public map.
 
 **Parameters**
 
--   `param` **[Object][27]** 
+-   `param` **[Object][27]**
     -   `param.mapData` **[Object][27]** the map object
         -   `param.mapData.map` **[Object][27]** {datasets. config, info: {title, description}}
         -   `param.mapData.thumbnail` **[Blob][35]** A thumbnail of current map. thumbnail size can be defined by provider by this.thumbnail
     -   `param.options` **[Object][27]**  (optional, default `{}`)
         -   `param.options.overwrite` **[boolean][31]** whether user choose to overwrite already saved map under the same name
-        -   `param.options.isPublic` **[boolean][31]** whether user wish to share the map with others. if isPublic is truthy, kepler will call this.getShareUrl() to display an URL they can share with others
+        -   `param.options.isPublic` **[boolean][31]** whether user wish to share the map with others. if isPublic is truthy, it will call this.getShareUrl() to display an URL they can share with others
 
 ## MapResponse
 
 The returned object of `downloadMap`. The response object should contain: datasets: \[], config: {}, and info: {}
 each dataset object should be {info: {id, label}, data: {...}}
-to inform how kepler should process your data object, pass in `format`
+to inform how we should process your data object, pass in `format`
 
 Type: [Object][27]
 
 ### Properties
 
--   `map` **[Object][27]** 
-    -   `map.datasets` **[Array][32]&lt;[Object][27]>** 
-    -   `map.config` **[Object][27]** 
-    -   `map.info` **[Object][27]** 
--   `format` **[string][28]** one of 'csv': csv file string, 'geojson': geojson object, 'row': row object, 'keplergl': datasets array saved using KeplerGlSchema.save
+-   `map` **[Object][27]**
+    -   `map.datasets` **[Array][32]&lt;[Object][27]>**
+    -   `map.config` **[Object][27]**
+    -   `map.info` **[Object][27]**
+-   `format` **[string][28]** one of 'csv': csv file string, 'geojson': geojson object, 'row': row object, 'map': datasets array saved using KeplerGlSchema.save
 
 ## Viz
 

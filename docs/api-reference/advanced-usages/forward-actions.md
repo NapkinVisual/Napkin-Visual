@@ -1,12 +1,12 @@
 # Forward Dispatch Actions
 
-One of the biggest challenge of using local state is to dispatch actions that only modify a specific instance of the state. For instance, if we have 2 kepler.gl components in our app, one with id `foo` other with id `bar`. Our keplerGl reducer is going to be `keplerGl: {foo: …, bar …}`. When `foo` dispatches an action, it only needs to update the state of `foo`, hence we need a way to decorate the action that the root reducer only pass it down to instance reducer `foo`.  To solve this, we provide a set of forward functions called `wrapTo`, `forwardTo` and `unwrap`. `wrapTo` wraps an action payload into an forward action by adding an address `_addr_` and a `_forward_` signature to its `meta`. The root reducer will check if the given action has that address and if so, `unwrap` the action and pass it to the correct instance reducer.
+One of the biggest challenge of using local state is to dispatch actions that only modify a specific instance of the state. For instance, if we have 2 components in our app, one with id `foo` other with id `bar`. Our reducer is going to be `keplerGl: {foo: …, bar …}`. When `foo` dispatches an action, it only needs to update the state of `foo`, hence we need a way to decorate the action that the root reducer only pass it down to instance reducer `foo`.  To solve this, we provide a set of forward functions called `wrapTo`, `forwardTo` and `unwrap`. `wrapTo` wraps an action payload into an forward action by adding an address `_addr_` and a `_forward_` signature to its `meta`. The root reducer will check if the given action has that address and if so, `unwrap` the action and pass it to the correct instance reducer.
 
-**Here are the different options to dispatch forwarded actions to kepler.gl reducer.**
+**Here are the different options to dispatch forwarded actions to the reducer.**
 
 ### 1. Use `forwardTo` to add a dispatch function to your component
 
-You can add a dispatch function to your component that dispatches actions to a specific kepler.gl instance using connect.
+You can add a dispatch function to your component that dispatches actions to a specific instance using connect.
 
 ```js
 // component

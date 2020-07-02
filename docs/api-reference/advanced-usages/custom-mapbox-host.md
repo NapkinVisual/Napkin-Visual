@@ -11,7 +11,7 @@ The KeplerGL component accepts an optional parameter `mapboxApiUrl` to override 
 ```
 
 ### 2. Overriding the default MapStyles
-The default MapStyles KeplerGL uses might not be accessible to you, in this case you will need to provide MapStyle overrides. During construction of your component:
+The default MapStyles the map uses might not be accessible to you, in this case you will need to provide MapStyle overrides. During construction of your component:
 ```js
   this.token = '';
   this.apiHost = "https://api.mapbox.cn";

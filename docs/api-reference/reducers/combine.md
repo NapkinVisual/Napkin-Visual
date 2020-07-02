@@ -7,7 +7,7 @@
 
 ## combinedUpdaters
 
-Some actions will affect the entire kepler.lg instance state.
+Some actions will affect the entire instance state.
 The updaters for these actions is exported as `combinedUpdaters`. These updater take the entire instance state
 as the first argument. Read more about [Using updaters][5]
 
@@ -57,8 +57,8 @@ Combine data and full configuration update in a single action
 
 **Parameters**
 
--   `state` **[Object][7]** kepler.gl instance state, containing all subreducer state
--   `action` **[Object][7]** 
+-   `state` **[Object][7]** instance state, containing all subreducer state
+-   `action` **[Object][7]**
     -   `action.payload` **[Object][7]** `{datasets, options, config}`
         -   `action.payload.datasets` **([Array][8]&lt;[Object][7]> | [Object][7])** **\*required** datasets can be a dataset or an array of datasets
             Each dataset object needs to have `info` and `data` property.

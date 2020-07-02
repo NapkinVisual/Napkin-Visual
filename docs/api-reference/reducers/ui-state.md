@@ -31,7 +31,7 @@
 
 ## uiStateUpdaters
 
-Updaters for `uiState` reducer. Can be used in your root reducer to directly modify kepler.gl's state.
+Updaters for `uiState` reducer. Can be used in your root reducer to directly modify the state.
 Read more about [Using updaters][53]
 
 **Examples**
@@ -76,8 +76,8 @@ Add a notification to be displayed
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
-    -   `action.payload` **[Object][55]** 
+-   `action` **[Object][55]**
+    -   `action.payload` **[Object][55]**
 
 Returns **[Object][55]** nextState
 
@@ -174,7 +174,7 @@ Handles load file error and set fileLoading property to false
 **Parameters**
 
 -   `state`  
--   `error` **[Object][55]** 
+-   `error` **[Object][55]**
     -   `error.error`  
 
 Returns **[Object][55]** nextState
@@ -200,7 +200,7 @@ Toggle active map control panel
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **[string][57]** dataset id
 
 Returns **[Object][55]** nextState
@@ -214,7 +214,7 @@ Remove a notification
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **[String][57]** id of the notification to be removed
 
 Returns **[Object][55]** nextState
@@ -228,7 +228,7 @@ Set data format for exporting data
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **[string][57]** one of `'text/csv'`
 
 Returns **[Object][55]** nextState
@@ -254,8 +254,8 @@ Whether to export filtered data, `true` or `false`
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
-    -   `action.payload` **[boolean][58]** 
+-   `action` **[Object][55]**
+    -   `action.payload` **[boolean][58]**
 
 Returns **[Object][55]** nextState
 
@@ -268,7 +268,7 @@ Set `exportImage.setExportImageDataUri` to a image dataUri
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **[string][57]** export image data uri
 
 Returns **[Object][55]** nextState
@@ -282,7 +282,7 @@ Set `exportImage.legend` to `true` or `false`
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `$1` **[Object][55]** 
+-   `$1` **[Object][55]**
     -   `$1.payload`  
 
 Returns **[Object][55]** nextState
@@ -296,7 +296,7 @@ Set selected dataset for export
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **[string][57]** dataset id
 
 Returns **[Object][55]** nextState
@@ -310,7 +310,7 @@ Hide and show side panel header dropdown, activated by clicking the share link o
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **[string][57]** id of the dropdown
 
 Returns **[Object][55]** nextState
@@ -352,7 +352,7 @@ Show and hide modal dialog
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **([string][57] | null)** id of modal to be shown, null to hide modals. One of:-   [`DATA_TABLE_ID`][76]
         -   [`DELETE_DATA_ID`][77]
         -   [`ADD_DATA_ID`][78]
@@ -371,7 +371,7 @@ Toggle active side panel
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
+-   `action` **[Object][55]**
     -   `action.payload` **([string][57] | null)** id of side panel to be shown, one of `layer`, `filter`, `interaction`, `map`. close side panel if `null`
 
 Returns **[Object][55]** nextState
@@ -406,8 +406,8 @@ whether to export a mapbox access to HTML single page
 **Parameters**
 
 -   `state` **[Object][55]** `uiState`
--   `action` **[Object][55]** 
-    -   `action.payload` **[string][57]** 
+-   `action` **[Object][55]**
+    -   `action.payload` **[string][57]**
 
 Returns **[Object][55]** nextState
 
