@@ -34,6 +34,11 @@ const reducers = (function createReducers(redux, keplerGl) {
       mapStyle: {
         styleType: 'satellite',
         threeDBuildingColor: [ 192, 192, 192 ]
+      },
+      uiState: {
+        currentModal: null,
+        //activeSidePanel: false,
+        readOnly: false
       }
     })
   });
