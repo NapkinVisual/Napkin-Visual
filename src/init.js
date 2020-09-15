@@ -1,6 +1,6 @@
 /*©agpl*************************************************************************
 *                                                                              *
-* Napkin Visual – Visualisation solution for the NapkinGIS platform            *
+* Napkin Visual – Visualisation platform for the Napkin platform               *
 * Copyright (C) 2020  Napkin AS                                                *
 *                                                                              *
 * This program is free software: you can redistribute it and/or modify         *
@@ -14,7 +14,7 @@
 * GNU Affero General Public License for more details.                          *
 *                                                                              *
 * You should have received a copy of the GNU Affero General Public License     *
-* along with this program.  If not, see <http://www.gnu.org/licenses/>.        *
+* along with this program. If not, see <http://www.gnu.org/licenses/>.         *
 *                                                                              *
 *****************************************************************************©*/
 
@@ -32,8 +32,8 @@ const reducers = (function createReducers(redux, keplerGl) {
         zoom: 5
       },
       mapStyle: {
-        styleType: 'light'
-        //threeDBuildingColor: [ 192, 192, 192 ]
+        styleType: 'satellite',
+        threeDBuildingColor: [ 192, 192, 192 ]
       }
     })
   });
@@ -83,13 +83,12 @@ const KeplerElement = (function(react, keplerGl, mapboxToken) {
 
     return react.createElement(
       'div',
-      { style: { position: 'absolute', left: 0, top: 45, width: '100vw', height: 'calc(100vh - 45px)' } },
-      //{ style: { position: 'absolute', left: 0, width: '100vw', height: '100vh' } },
+      { style: { position: 'absolute', left: 0, width: '100vw', height: '100vh' } },
       react.createElement(keplerGl.KeplerGl, {
         mapboxApiAccessToken: mapboxToken,
         id: 'map',
         width: windowDimension.width,
-        height: windowDimension.height - 45,
+        height: windowDimension.height,
         appName: 'Napkin Visual',
         appWebsite: 'https://napkingis.no'
       })
