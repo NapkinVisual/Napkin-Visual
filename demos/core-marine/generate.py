@@ -18,8 +18,8 @@
 # *                                                                              *
 # *****************************************************************************©*/
 
-import csv
-import random
+import json
+from datetime import datetime
 
 
 lrange = lambda a,b : range(a, b+1)
@@ -29,9 +29,31 @@ COORDS = [
 ]
 
 def main():
-	with open('DATA_ship.csv', mode='w') as outfile:
-		writer = csv.writer(outfile, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		writer.writerow(['latitude', 'longitude', 'pitch', 'roll', 'load (tn)', 'capacity (%)', 'timestamp'])
+	with open('ship.geojson', mode='w') as outfile:
+		out = {
+			"type": "FeatureCollection",
+			"features": [
+				{
+					"type": "Feature",
+					"properties": {
+						"Speed": "5.8kn",
+						"Heading": "-33.52°",
+						"Roll (min,max)": "-4.02°  0.22°",
+						"Pitch (min,max)": "0.64°  0.88°",
+						"Heave (min,max)": "-0.88m  0.12m",
+						"Wind": "3.91kn  265.85°",
+						"Temperature": "5.1°C",
+						"Wave height": "1.5m",
+						"Wave direction": "315.01°"
+					},
+					"geometry": {
+						"type": "LineString",
+						"coordinates": []
+					}
+				}
+			]
+		}
+		coords = []
 
 		h = 12; m = 0
 		for c in COORDS:
@@ -41,19 +63,14 @@ def main():
 			hour = f'0{h}' if len(str(h)) < 2 else f'{h}'
 			minute = f'0{m}' if len(str(m)) < 2 else f'{m}'
 
-			lat = c[1]; lng = c[0]
-
-			pitch = round(3 + random.uniform(0, 0.5), 4) * [-1,1][random.randrange(2)]
-			roll = round(5 + random.uniform(0, 1), 4) * [-1,1][random.randrange(2)]
-
-			load = 76
-			capacity = '91%'
+			lat = c[0]; lng = c[1]
 			timestamp = f'2020-09-30 {hour}:{minute}:00 +00:00'
 
-			writer.writerow([lat, lng, pitch, roll, load, capacity, timestamp])
+			coords.append( [lat, lng, 0, timestamp] )
 
-		#writer.writerow([COORDS[0][1], COORDS[0][0], '', 0, 0.0, ''])
-		#writer.writerow([COORDS[0][1], COORDS[0][0], '', MAX_CAPACITY, 100.0, ''])
+		out['features'][0]['geometry']['coordinates'] = coords
+
+		json.dump(out, outfile)
 
 if __name__ == '__main__':
 	main()
