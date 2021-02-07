@@ -1,4 +1,3 @@
-<!--
 /*©agpl*************************************************************************
 *                                                                              *
 * Napkin Visual – Visualisation platform for the Napkin platform               *
@@ -18,49 +17,12 @@
 * along with this program. If not, see <http://www.gnu.org/licenses/>.         *
 *                                                                              *
 *****************************************************************************©*/
--->
 
+//
 
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="x-ua-compatible" content="ie=edge" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
-		<title>Napkin Visual</title>
-
-		<link rel="icon" href="assets/logo.svg" />
-
-		<!-- Uber Font -->
-		<link rel="stylesheet" href="lib/superfine.css" />
-
-		<!-- MapBox css -->
-		<link href="lib/mapbox-gl.css" rel="stylesheet" />
-
-		<!-- Load React/Redux -->
-		<script type="text/javascript" src="lib/react.production.min.js"></script>
-		<script type="text/javascript" src="lib/react-dom.production.min.js"></script>
-		<script type="text/javascript" src="lib/redux.js"></script>
-		<script type="text/javascript" src="lib/react-redux.min.js"></script>
-		<script type="text/javascript" src="lib/styled-components.min.js"></script>
-
-		<!-- Load build -->
-		<script type="text/javascript" src="lib/build.min.js"></script>
-
-		<style type="text/css">
-			body {
-				margin: 0; padding: 0; overflow: hidden;
-			}
-		</style>
-	</head>
-	<body>
-
-		<div id="app"></div>
-
-		<!-- Load map component -->
-		<script type="text/javascript" src="src/utils.js"></script>
-		<script type="text/javascript" src="src/init.js"></script>
-		<script type="text/javascript" src="src/main.js"></script>
-	</body>
-</html>
+/**
+ * function
+ */
+function f() {
+	return
+}
