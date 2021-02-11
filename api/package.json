@@ -1,0 +1,37 @@
+{
+  "name": "napkin-visual",
+  "version": "1.0.0",
+  "description": "Data integration for Napkin-Visual",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Napkin AS",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "@datafire/cnn_rss": "^5.0.0",
+    "@datafire/exchangerate_api": "^3.0.0",
+    "@datafire/facebook": "^5.0.0",
+    "@datafire/fileserver": "^1.0.1",
+    "@datafire/fitbit": "^5.0.0",
+    "@datafire/github": "^7.0.0",
+    "@datafire/google_sheets": "^6.0.0",
+    "@datafire/google_youtube": "^6.0.0",
+    "@datafire/here_positioning": "^3.0.0",
+    "@datafire/http": "^2.1.0",
+    "@datafire/hubspot": "^1.1.0",
+    "@datafire/imap": "^2.0.1",
+    "@datafire/linkedin": "^5.0.0",
+    "@datafire/nytimes_rss": "^5.0.0",
+    "@datafire/nytimes_times_tags": "^6.0.0",
+    "@datafire/openfintech": "^6.0.0",
+    "@datafire/reddit": "^5.0.0",
+    "@datafire/reddit_rss": "^5.0.0",
+    "@datafire/salesforce": "^5.0.0",
+    "@datafire/salesforcechatter": "^5.0.0",
+    "@datafire/smtp": "^3.1.0",
+    "@datafire/tfl_gov_uk": "^6.0.0",
+    "@datafire/twitter": "^4.0.0",
+    "datafire": "^2.27.1"
+  }
+}

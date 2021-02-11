@@ -1,0 +1,6 @@
+# Store credentials for different APIs and services.
+# You can also put this (and other fields) in DataFire-accounts.yml, which can be added to your .gitignore
+
+#accounts:
+#	mongodb_readonly:
+#		url: https://readonly@database.example.com

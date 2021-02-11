@@ -1,0 +1,76 @@
+options:
+  cors: true     # enable cross-origin requests
+  cache: 5000    # number of millseconds to cache requests
+  bodyLimit: 1mb # maximum size of JSON body for HTTP requests
+
+# Authorizers will before each of your path triggers (unless disabled),
+# and will populate context.accounts.AUTHORIZER_ID
+#authorizers:
+# user:
+#   action: ./actions/get-user-from-auth-header.js
+
+actions:
+  hello: ./actions/hello.js
+  log-http: ./actions/log-http.js
+  log-task: ./actions/log-task.js
+  send-alert: ./actions/send-alert.js
+  db-report: ./actions/send-db-report.js
+  ######
+  twitter: ./actions/twitter.js
+  facebook: ./actions/facebook.js
+  reddit: ./actions/reddit.js
+  github: ./actions/github.js
+  youtube: ./actions/youtube.js
+  hubspot: ./actions/hubspot.js
+  linkedin: ./actions/linkedin.js
+  salesforce: ./actions/salesforce.js
+
+events:
+  # This action will be called whenever one of your path triggers runs
+  http:
+    action: log-http
+
+  # This action will be called whenever one of your task triggers runs
+  task:
+    action: log-task
+
+  # This action will be called whenever one of your path or task triggers fails unexpectedly.
+  error:
+    action: send-alert
+
+  # This action will be called whenever one of your OAuth tokens is refreshed
+  #oauth_refresh:
+  # action: ./actions/update-refresh-token.js
+
+paths:
+  /hello:
+    get:
+      action: hello
+
+  /twitter:
+    get:
+      action: twitter
+
+  /gh_profile:
+    get:
+      action: github/users.username.get
+      input:
+        username: AndreasAtakan
+
+tasks:
+  send_database_report:
+    action: db-report
+    schedule: rate(1 day)  # You can use 'rate' or 'cron'
+
+tests:
+  generate_database_report:
+    action: db-report
+
+# Use openapi to control fields in the openapi.json generated for your project
+openapi:
+  host: visual.napkingis.no
+  schemes:
+    - https
+  info:
+    description: An API built with DataFire
+    version: 1.0.0
