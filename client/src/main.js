@@ -254,15 +254,7 @@
 	}));
 	*/
 
-	/*fetch('https://nvdbapiles-v3.atlas.vegvesen.no/vegobjekter/45.json?inkluder=egenskaper,metadata,lokasjon,geometri&srid=wgs84')
-	.then(res => res.json())
-	.then(res => {
-		let data = res;
-		console.log(data);
-	})
-	.catch(err => console.error(err));*/
-
 
 	// TODO: use the above data-import and fetch call to cook up a dynamic-data example using, for example, finantial data, social-media data or GitHub pull/clone data
 
-}(KeplerGl, store))
+}(KeplerGl, store));

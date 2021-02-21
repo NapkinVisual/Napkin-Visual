@@ -3,12 +3,6 @@ options:
   cache: 5000    # number of millseconds to cache requests
   bodyLimit: 1mb # maximum size of JSON body for HTTP requests
 
-# Authorizers will before each of your path triggers (unless disabled),
-# and will populate context.accounts.AUTHORIZER_ID
-#authorizers:
-# user:
-#   action: ./actions/get-user-from-auth-header.js
-
 actions:
   hello: ./actions/hello.js
   log-http: ./actions/log-http.js
@@ -51,16 +45,10 @@ paths:
     get:
       action: twitter
 
-  /gh_profile:
-    get:
-      action: github/users.username.get
-      input:
-        username: AndreasAtakan
-
-tasks:
-  send_database_report:
-    action: db-report
-    schedule: rate(1 day)  # You can use 'rate' or 'cron'
+#tasks:
+#  send_database_report:
+#    action: db-report
+#    schedule: rate(1 day)  # You can use 'rate' or 'cron'
 
 tests:
   generate_database_report:

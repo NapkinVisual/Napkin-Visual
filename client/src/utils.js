@@ -18,11 +18,14 @@
 *                                                                              *
 *****************************************************************************©*/
 
-//
+"use strict";
 
-/**
- * function
- */
-function f() {
-	return
+function makeid(l) {
+	let c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', r = '';
+
+	for(let i = 0; i < l; i++) {
+		r += c.charAt(Math.floor(Math.random() * c.length));
+	}
+
+	return r;
 }

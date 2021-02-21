@@ -32,6 +32,8 @@
     "@datafire/smtp": "^3.1.0",
     "@datafire/tfl_gov_uk": "^6.0.0",
     "@datafire/twitter": "^4.0.0",
-    "datafire": "^2.27.1"
+    "datafire": "^2.27.1",
+    "sqlite": "^4.0.19",
+    "sqlite3": "^5.0.2"
   }
 }
