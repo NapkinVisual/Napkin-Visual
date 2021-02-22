@@ -39,6 +39,7 @@ module.exports = new datafire.Action({
 		//let r = await twitter.trends.available(null, context);
 		let trends = await twitter.trends.place({ "id": "1" }, context);
 		trends = trends[0].trends.sort( (a, b) => b.tweet_volume - a.tweet_volume ).slice(0, 6).map( a => decodeURIComponent(a.query.replace("+", "%20")/*.replace(/\%20/ig, "")*/) );
+		res = trends;
 
 		/*let query = `${trends[0]}`; //has:geo
 		for(let t of trends.slice(1)) { query += ` OR ${t}`; }
@@ -82,9 +83,8 @@ module.exports = new datafire.Action({
 			driver: sqlite3.Database
 		});*/
 
-		//for(let t of r.data) {
-		for(let i = 0; i < 100; i++) {
-			/*let id = t.id,
+		/*for(let t of r.data) {
+			let id = t.id,
 				conversation_id = t.conversation_id,
 				author_id = t.author_id,
 				source = t.source,
@@ -95,10 +95,10 @@ module.exports = new datafire.Action({
 				quotes = t.public_metrics.quote_count,
 				timestamp = t.created_at,
 				count = 0;
-			let lat = null, lng = null;*/
+			let lat = null, lng = null;
 
 
-			/*let geoFound = false;
+			let geoFound = false;
 			if(places && t.geo) {
 				for(let p of r.includes.places) {
 					if(p.id == t.geo.place_id) {
@@ -109,10 +109,10 @@ module.exports = new datafire.Action({
 					}
 				}
 			}
-			if(!lat || !lng) {}*/
+			if(!lat || !lng) {}
 
 
-			/*let username = "";
+			let username = "";
 			if(users) {
 				for(let u of r.includes.users) {
 					if(u.id == author_id) {
@@ -147,39 +147,12 @@ module.exports = new datafire.Action({
 
 			let date = timestamp.split('T')[0],
 				time = timestamp.split('T')[1].slice(0, -1);
-			let datetime = `${date} ${time}`;*/
-
-			let latlng = generateLatlng(),
-				lat = latlng.lat,
-				lng = latlng.lng;
-
-			let trend = trends[ randInt(0, trends.length - 1) ],
-				source = ["iPhone", "Android", "Web"][ randInt(0, 2) ];
-
-			let pad2 = n => n < 10 ? '0' + n : n;
-			let date = new Date();
-			let datetime = `${date.getFullYear().toString()}-${pad2(date.getMonth() + 1)}-${pad2(date.getDate())} ${pad2(date.getHours())}:${pad2(date.getMinutes())}:${pad2(date.getSeconds())}`;
-
-			let count = 0;
+			let datetime = `${date} ${time}`;
 
 			res.push(
 				[ lat, lng, trend, source, datetime, count ]
 			);
-
-			for(let i = 0; i < randInt(30, 70); i++) {
-				latlng = generateLatlngNearby(lat, lng);
-
-				if(Math.random() <= 0.25)
-					trend = trends[ randInt(0, trends.length - 1) ];
-
-				if(Math.random() <= 0.25)
-					source = ["iPhone", "Android", "Web"][ randInt(0, 2) ];
-
-				res.push(
-					[ latlng.lat, latlng.lng, trend, source, datetime, count ]
-				);
-			}
-		}
+		}*/
 
 		//await db.close(err => { if(err) console.error(err.message); });
 
@@ -199,7 +172,30 @@ module.exports = new datafire.Action({
 
 
 
-const _CITIES = [
+/*
+API-calls for the real-time version
+https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction
+
+curl -X POST 'https://api.twitter.com/2/tweets/search/stream/rules' -H "Content-type: application/json" -H "Authorization: Bearer $BEARER_TOKEN" -d '{ "add": [ {"value": "trump has:geo", "tag": "trump"} ] }'
+
+curl -X POST 'https://api.twitter.com/2/tweets/search/stream/rules' -H "Content-type: application/json" -H "Authorization: Bearer $BEARER_TOKEN" -d '{ "delete": { "ids": ["1360374040339369988"] } }'
+
+curl https://api.twitter.com/2/tweets/search/stream/rules -H "Authorization: Bearer $BEARER_TOKEN"
+
+curl https://api.twitter.com/2/tweets/search/stream\?expansions=geo.place_id\&place.fields=geo\&tweet.fields=geo -H "Authorization: Bearer $BEARER_TOKEN"
+
+
+
+
+
+let rand = (min, max) => Math.random() * (max - min) + min;
+let randInt = (min, max) => {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+let _CITIES = [
 	{name: "New York", lat: 40.730610, lng: -73.935242},
 	{name: "London", lat: 51.509865, lng: -0.118092},
 	{name: "Washington DC", lat: 38.8951, lng: -77.0364},
@@ -242,10 +238,12 @@ const _CITIES = [
 	{name: "Melbourne", lat: -37.840935, lng: 144.946457},
 	{name: "Johannesburg", lat: -26.195246, lng: 28.034088},
 	{name: "New Delhi", lat: 28.644800, lng: 77.216721},
+	{name: "Lyon", lat: 45.763420, lng: 4.834277},
 	{name: "Geneva", lat: 46.204391, lng: 6.143158},
 	{name: "Mumbai", lat: 19.076090, lng: 72.877426},
 	{name: "Portland", lat: 45.523064, lng: -122.676483},
 	{name: "Tel Aviv", lat: 32.109333, lng: 34.855499},
+	{name: "Lisbon", lat: 38.736946, lng: -9.142685},
 	{name: "Bangkok", lat: 13.736717, lng: 100.523186},
 	{name: "Zurich", lat: 47.373878, lng: 8.545094},
 	{name: "Prague", lat: 50.073658, lng: 14.418540},
@@ -254,58 +252,19 @@ const _CITIES = [
 	{name: "Stockholm", lat: 59.334591, lng: 18.063240},
 	{name: "Athens", lat: 37.983810, lng: 23.727539},
 	{name: "Oslo", lat: 59.911491, lng: 10.757933},
+	{name: "Glasgow", lat: 55.860916, lng: -4.251433},
 	{name: "Dublin", lat: 53.350140, lng: -6.266155},
+	{name: "Edinburgh", lat: 55.953251, lng: -3.188267},
+	{name: "Manchester", lat: 55.953251, lng: -3.188267},
 	{name: "Helsinki", lat: 60.192059, lng: 24.945831},
+	{name: "Newcastle", lat: 54.966667, lng: -1.600000},
+	{name: "Birmingham", lat: 52.489471, lng: -1.898575},
 	{name: "Taipei", lat: 25.105497, lng: 121.597366},
 	{name: "Moscow", lat: 55.751244, lng: 37.618423},
 	{name: "Beijing", lat: 39.916668, lng: 116.383331},
 	{name: "Santiago", lat: -33.447487, lng: -70.673676},
 	{name: "Caracas", lat: 10.500000, lng: -66.916664},
+	{name: "Kyiv", lat: 50.431759, lng: 30.517023},
 	{name: "Reykjavik", lat: 64.128288, lng: -21.827774}
 ];
-
-let rand = (min, max) => Math.random() * (max - min) + min;
-let randInt = (min, max) => {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-function generateLatlng() {
-	for(let c of _CITIES) {
-		let r = Math.random();
-
-		if(r <= 0.1) return c;
-	}
-
-	return _CITIES[ _CITIES.length - 1 ];
-}
-
-function generateLatlngNearby(lat, lng) {
-	let r = 0.08984725965858041, // 10000 / 111300
-		u = Math.random(),
-		v = Math.random();
-
-	let w = r * Math.sqrt(u),
-		t = 2 * Math.PI * v;
-	let x = (w * Math.cos(t)) / Math.cos(lng),
-		y = w * Math.sin(t);
-
-	return { lat: x, lng: y };
-}
-
-
-
-
-/*
-API-calls for the real-time version
-https://developer.twitter.com/en/docs/twitter-api/tweets/filtered-stream/introduction
-
-curl -X POST 'https://api.twitter.com/2/tweets/search/stream/rules' -H "Content-type: application/json" -H "Authorization: Bearer $BEARER_TOKEN" -d '{ "add": [ {"value": "trump has:geo", "tag": "trump"} ] }'
-
-curl -X POST 'https://api.twitter.com/2/tweets/search/stream/rules' -H "Content-type: application/json" -H "Authorization: Bearer $BEARER_TOKEN" -d '{ "delete": { "ids": ["1360374040339369988"] } }'
-
-curl https://api.twitter.com/2/tweets/search/stream/rules -H "Authorization: Bearer $BEARER_TOKEN"
-
-curl https://api.twitter.com/2/tweets/search/stream\?expansions=geo.place_id\&place.fields=geo\&tweet.fields=geo -H "Authorization: Bearer $BEARER_TOKEN"
 */

@@ -20,16 +20,16 @@
 
 "use strict";
 let datafire = require('datafire');
+let exchangerate = require('@datafire/exchangerate_api').create();
 
 module.exports = new datafire.Action({
-	description: 'GitHub',
+	description: 'Exchangerate API',
 	handler: async (input, context) => {
-		//
+		let res = await exchangerate.latest.base_currency.get({
+			"base_currency": "USD"
+		}, context);
+
+		return res;
 	},
-	inputs: [{
-		title: 'name',
-		type: 'string',
-		maxLength: 0,
-		pattern: '\\w+'
-	}]
+	inputs: []
 });

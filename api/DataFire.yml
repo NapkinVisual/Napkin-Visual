@@ -8,16 +8,15 @@ actions:
   log-http: ./actions/log-http.js
   log-task: ./actions/log-task.js
   send-alert: ./actions/send-alert.js
-  db-report: ./actions/send-db-report.js
   ######
   twitter: ./actions/twitter.js
-  facebook: ./actions/facebook.js
-  reddit: ./actions/reddit.js
-  github: ./actions/github.js
-  youtube: ./actions/youtube.js
-  hubspot: ./actions/hubspot.js
-  linkedin: ./actions/linkedin.js
-  salesforce: ./actions/salesforce.js
+  exchangerate: ./actions/exchangerate.js
+  #facebook: ./actions/facebook.js
+  #reddit: ./actions/reddit.js
+  #youtube: ./actions/youtube.js
+  #hubspot: ./actions/hubspot.js
+  #linkedin: ./actions/linkedin.js
+  #salesforce: ./actions/salesforce.js
 
 events:
   # This action will be called whenever one of your path triggers runs
@@ -45,14 +44,18 @@ paths:
     get:
       action: twitter
 
+  /exchangerate:
+    get:
+      action: exchangerate
+
 #tasks:
 #  send_database_report:
 #    action: db-report
 #    schedule: rate(1 day)  # You can use 'rate' or 'cron'
 
-tests:
-  generate_database_report:
-    action: db-report
+#tests:
+#  generate_database_report:
+#    action: db-report
 
 # Use openapi to control fields in the openapi.json generated for your project
 openapi:
