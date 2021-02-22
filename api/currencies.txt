@@ -1,0 +1,52 @@
+USD United States of America
+AED United Arab Emirates
+ARS Argentina
+AUD Australia
+BGN Bulgaria
+BRL Brasil
+BSD Bahamas
+CAD Canada
+CHF Switzerland
+CLP Chile
+CNY China
+COP Colombia
+CZK Czechia
+DKK Denmark
+DOP Dominican Rep.
+EGP Egypt
+EUR Euro Finland Estonia Latvia Lithuania Ireland Germany France Netherlands Belgium Luxembourg Austria Slovakia Slovenia Italy Greece Spain Portugal Montenegro Kosovo
+FJD Fiji
+GBP United Kingdom
+GTQ Guatemala
+HKD Hong Kong
+HRK Croatia
+HUF Hungary
+IDR Indonesia
+ILS Israel
+INR India
+ISK Iceland
+JPY Japan
+KRW South Korea
+KZT Kazakhstan
+MVR Maldivene
+MXN Mexico
+MYR Malaysia
+NOK Norway
+NZD New Zealand
+PAB Panama
+PEN Peru
+PHP Philippines
+PKR Pakistan
+PLN Poland
+PYG Paraguay
+RON Romania
+RUB Russia
+SAR Saudi Arabia
+SEK Sweden
+SGD Singapore
+THB Thailand
+TRY Turkey
+TWD Taiwan
+UAH Ukraine
+UYU Uruguay
+ZAR South Africa
