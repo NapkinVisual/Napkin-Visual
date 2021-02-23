@@ -20,6 +20,7 @@
 
 import csv
 import json
+import requests
 import sqlite3
 
 
@@ -66,12 +67,53 @@ def geojson():
 
 		json.dump(data, fileOut)
 
+def ships():
+	with open('res0.json', mode='r') as fileIn1,\
+		 open('res1.json', mode='r') as fileIn2,\
+		 open('res2.json', mode='r') as fileIn3,\
+		 open('res3.json', mode='r') as fileIn4,\
+		 open('res.csv', mode='w') as fileOut:
+		res = [
+			json.load(fileIn1),
+			json.load(fileIn2),
+			json.load(fileIn3),
+			json.load(fileIn4)
+		]
+		writer = csv.writer(fileOut, delimiter='\t', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		writer.writerow([
+			'LAT',
+			'LON',
+			'SPEED',
+			'COURSE',
+			'HEADING',
+			'ELAPSED',
+			'SHIPNAME',
+			'SHIPTYPE',
+			'SHIP_ID'
+		])
+
+		for f in res:
+			data = f['data']['rows']
+			for r in data:
+				writer.writerow([
+					r['LAT'],
+					r['LON'],
+					r['SPEED'],
+					r['COURSE'],
+					r['HEADING'],
+					r['ELAPSED'],
+					r['SHIPNAME'],
+					r['SHIPTYPE'],
+					r['SHIP_ID']
+				])
+
 
 def main():
 	#transform('allCountries.csv')
 	#transform('cities15000.csv')
 	#database()
 	#geojson()
+	#ships()
 
 
 if __name__ == '__main__':

@@ -28,7 +28,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-		<title>Napkin Visual – Global exchange rates</title>
+		<title>Napkin Visual – Live flight traffic</title>
 
 		<link rel="icon" href="assets/logo.svg" />
 
@@ -81,21 +81,17 @@
 				return redux.combineReducers({
 					keplerGl: keplerGl.keplerGlReducer.initialState({
 						mapState: {
-							bearing: -3.65625,
-							dragRotate: true,
-							latitude: 17.1923447689113,
-							longitude: -5.420165306851631,
-							pitch: 38.0060197173633,
-							zoom: 2,
-							isSplit: false
+							latitude: 30.354041200386416,
+							longitude: -36.106767870601665,
+							zoom: 2.2545582238992052
 						},
 						mapStyle: {
-							styleType: 'dark',
+							styleType: 'satellite',
 							threeDBuildingColor: [ 192, 192, 192 ]
 						},
 						uiState: {
 							currentModal: null,
-							//activeSidePanel: false,
+							activeSidePanel: false,
 							readOnly: false
 						}
 					})
@@ -186,14 +182,30 @@
 						"version": "v1",
 						"data": {
 							"id": dataId,
-							"label": "countries.geojson",
+							"label": "flights.csv",
 							"color": [ 143, 47, 191 ],
 							"allData": [],
 							"fields": [
-								{ "name": "_geojson",		"type": "geojson",	"format": "",	"analyzerType": "GEOMETRY" },
-								{ "name": "NAME", 			"type": "string",	"format": "",	"analyzerType": "STRING" },
-								{ "name": "exchange_rate",	"type": "integer",	"format": "",	"analyzerType": "INT" },
-								{ "name": "currency",		"type": "string",	"format": "",	"analyzerType": "STRING" }
+								{ "name": "icao24",			"type": "string",	"format": "", "analyzerType": "STRING" },
+								{ "name": "callsign",		"type": "string",	"format": "", "analyzerType": "STRING" },
+								{ "name": "origin_country",	"type": "string",	"format": "", "analyzerType": "STRING" },
+									{ "name": "velocity",		"type": "real",		"format": "", "analyzerType": "FLOAT" },
+									{ "name": "geo_altitude",	"type": "real",		"format":"", "analyzerType": "FLOAT" },
+								{ "name": "time_position",	"type": "timestamp","format": "x","analyzerType": "TIME" },
+								{ "name": "last_contact",	"type": "timestamp","format": "x","analyzerType": "TIME" },
+								{ "name": "longitude",		"type": "real",		"format": "", "analyzerType": "FLOAT" },
+								{ "name": "latitude",		"type": "real",		"format": "", "analyzerType": "FLOAT" },
+								{ "name": "baro_altitude",	"type": "real",		"format": "", "analyzerType": "FLOAT" },
+								{ "name": "on_ground",		"type": "boolean",	"format": "", "analyzerType": "BOOLEAN" },
+								//{ "name": "velocity",		"type": "real",		"format": "", "analyzerType": "FLOAT" },
+								{ "name": "true_track",		"type": "real",		"format": "", "analyzerType": "FLOAT" },
+								{ "name": "vertical_rate",	"type": "real",		"format": "", "analyzerType": "FLOAT" },
+								{ "name": "sensors",		"type": "string" },
+								//{ "name": "geo_altitude",	"type": "real",		"format":"", "analyzerType": "FLOAT" },
+								{ "name": "squawk",			"type": "integer",	"format":"", "analyzerType": "INT" },
+								{ "name": "spi",			"type": "boolean",	"format":"", "analyzerType": "BOOLEAN" },
+								{ "name": "position_source","type": "integer",	"format":"", "analyzerType": "INT" },
+								{ "name": "xgeo_altitude",	"type": "real",		"format":"", "analyzerType": "FLOAT" }
 							]
 						}
 					}
@@ -208,55 +220,46 @@
 							"layers": [
 								{
 									"id": "cO7POIFy",
-									"type": "geojson",
+									"type": "point",
 									"config": {
 										"dataId": dataId,
-										"label": "Countries",
+										"label": "Flights",
 										"color": [ 23, 184, 190 ],
-										"columns": { "geojson": "_geojson" },
+										"columns": { "lat": "latitude", "lng": "longitude", "altitude": "xgeo_altitude" },
 										"isVisible": true,
 										"visConfig": {
-											"opacity": 0.3,
-											"strokeOpacity": 0.8,
-											"thickness": 0.5,
-											"strokeColor": [248,149,112],
-											"colorRange": {
-											  "name": "ColorBrewer RdYlGn-6",
-											  "type": "diverging",
-											  "category": "ColorBrewer",
-											  "colors": ["#1a9850","#91cf60","#d9ef8b","#fee08b","#fc8d59","#d73027"],
-											  "reversed": false
-											},
-											"strokeColorRange": {
-											  "name": "Global Warming",
-											  "type": "sequential",
-											  "category": "Uber",
-											  "colors": ["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]
-											},
 											"radius": 10,
-											"sizeRange": [0,10],
+											"fixedRadius": false,
+											"opacity": 0.8,
+											"outline": false,
+											"thickness": 2,
+											"strokeColor": null,
+											"colorRange": {
+												"name": "Global Warming",
+												"type": "sequential",
+												"category": "Uber",
+												"colors": [ "#FFC300","#F1920E","#E3611C","#C70039","#900C3F","#5A1846" ],
+												"reversed": true
+											},
+											"strokeColorRange":{
+												"name": "Global Warming",
+												"type": "sequential",
+												"category": "Uber",
+												"colors": [ "#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300" ]
+											},
 											"radiusRange": [0,50],
-											"heightRange": [0,500],
-											"elevationScale": 5,
-											"stroked": false,
-											"filled": true,
-											"enable3d": true,
-											"wireframe": false
+											"filled": true
 										},
 										"hidden": false,
 										"textLabel": [ { "field": null, "color": [255,255,255], "size": 18, "offset": [0,0], "anchor": "start", "alignment": "center" } ]
 									},
 									"visualChannels": {
-										"colorField": { "name":"exchange_rate", "type":"integer" },
+										"colorField": { "name": "velocity", "type": "real" },
 										"colorScale": "quantile",
 										"strokeColorField": null,
 										"strokeColorScale": "quantile",
 										"sizeField": null,
-										"sizeScale": "linear",
-										"heightField": null,
-										"heightScale": "linear",
-										"radiusField": null,
-										"radiusScale": "linear"
+										"sizeScale": "linear"
 									}
 								}
 							],
@@ -264,9 +267,11 @@
 								"tooltip": {
 									"fieldsToShow": {
 										"cO7POIFy": [
-											{ "name": "NAME", "format": null },
-											{ "name": "exchange_rate", "format": null },
-											{ "name": "currency", "format": null }
+											{ "name": "icao24", "format": null },
+											{ "name": "callsign", "format": null },
+											{ "name": "origin_country", "format": null },
+											{ "name": "velocity", "format": null },
+											{ "name": "geo_altitude", "format": null }
 										]
 									},
 									"compareMode": false,
@@ -284,62 +289,43 @@
 					}
 				};
 
-				let rand = (min, max) => Math.random() * (max - min) + min;
+				let h = new Headers();
+				h.append('Authorization', 'Basic ' + btoa('Andreas_A:0z1Vj5Ja8CqM'));
 
 				function load() {
-					let data = datasets[0].data.allData;
-					let eurRate;
+					fetch('https://opensky-network.org/api/states/all', { headers: h })
+					.then(res => res.json())
+					.then(res => {
+						res = res.states;
 
-					for(let i = 0; i < data.length; i++) {
-						let r = datasets[0].data.allData[i], rate;
-
-						if(r[1] == 'United States of America') continue;
-
-						if(r[3] == 'EUR') {
-							if(!eurRate) eurRate = rand(r[2] - 0.1, r[2] + 0.1);
-							rate = eurRate;
-						}else{
-							rate = rand(r[2] - 0.1, r[2] + 0.1);
+						for(let r of res) {
+							r.splice(3, 0, r.splice(9,1)[0]);
+							r.splice(4, 0, r.splice(13,1)[0]);
+							r.push( r[13] * 100 );
 						}
 
-						datasets[0].data.allData[i][0].properties.exchange_rate = rate;
-						datasets[0].data.allData[i][2] = rate;
-					}
+						datasets[0].data.allData = res;
 
-					const loadedData = keplerGl.KeplerGlSchema.load(
-						datasets,
-						config
-					);
+						const loadedData = keplerGl.KeplerGlSchema.load(
+							datasets,
+							config
+						);
 
-					store.dispatch(keplerGl.addDataToMap({
-						datasets: loadedData.datasets,
-						config: loadedData.config,
-						options: {
-							centerMap: false
-						}
-					}));
+						store.dispatch(keplerGl.addDataToMap({
+							datasets: loadedData.datasets,
+							config: loadedData.config,
+							options: {
+								centerMap: false
+							}
+						}));
 
-					setTimeout(load, 500);
+						setTimeout(load, 5500);
+					})
+					.catch(err => console.error(err));
 				}
+				load();
 
-				fetch('https://v6.exchangerate-api.com/v6/932d4cd4dc82dfdb55eda16e/latest/USD')
-				.then(res => res.json())
-				.then(res => {
-					let rates = res.conversion_rates;
-
-					for(let f of _DATA.features) {
-						f.properties.exchange_rate = rates[ f.properties.currency ]
-
-						datasets[0].data.allData.push([
-							f,
-							f.properties.NAME,
-							f.properties.exchange_rate,
-							f.properties.currency
-						]);
-					}
-
-					load();
-				});
+				// https://opensky-network.org/apidoc/rest.html
 
 			}(KeplerGl, store));
 		</script>

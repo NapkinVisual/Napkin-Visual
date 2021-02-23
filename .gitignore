@@ -23,13 +23,10 @@ build
 */.env.test.local
 */.env.production.local
 
-*/temp.*
-*.db
-
 /dev/npm-debug.log*
 /dev/yarn-debug.log*
 /dev/yarn-error.log*
 
-**/raw/*
-
-*/taxi.html
+*/temp.*
+*.db
+BIG
