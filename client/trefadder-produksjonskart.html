@@ -1,0 +1,231 @@
+<!--
+/*©agpl*************************************************************************
+*                                                                              *
+* Napkin-Visual – High powered map-visualizations                              *
+* Copyright (C) 2020  Napkin AS                                                *
+*                                                                              *
+* This program is free software: you can redistribute it and/or modify         *
+* it under the terms of the GNU Affero General Public License as published by  *
+* the Free Software Foundation, either version 3 of the License, or            *
+* (at your option) any later version.                                          *
+*                                                                              *
+* This program is distributed in the hope that it will be useful,              *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of               *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                 *
+* GNU Affero General Public License for more details.                          *
+*                                                                              *
+* You should have received a copy of the GNU Affero General Public License     *
+* along with this program. If not, see <http://www.gnu.org/licenses/>.         *
+*                                                                              *
+*****************************************************************************©*/
+-->
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<title>Trefadder – Produksjonskart</title>
+
+		<link rel="icon" href="assets/logo.svg" />
+
+		<!-- Uber Font -->
+		<link rel="stylesheet" href="lib/superfine.css" />
+
+		<!-- MapBox css -->
+		<link href="lib/mapbox-gl.css" rel="stylesheet" />
+
+		<!-- Load React/Redux -->
+		<script type="text/javascript" src="lib/react.production.min.js"></script>
+		<script type="text/javascript" src="lib/react-dom.production.min.js"></script>
+		<script type="text/javascript" src="lib/redux.js"></script>
+		<script type="text/javascript" src="lib/react-redux.min.js"></script>
+		<script type="text/javascript" src="lib/styled-components.min.js"></script>
+
+		<!-- Load build -->
+		<script type="text/javascript" src="lib/build.min.js"></script>
+
+		<style type="text/css">
+			body {
+				margin: 0; padding: 0; overflow: hidden;
+			}
+
+			.logo_img {
+				max-width: 100px !important;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div id="app"></div>
+
+		<!-- Load map component -->
+		<script type="text/javascript">
+			"use strict";
+
+			/* MapBox token */
+			const MAPBOX_TOKEN = 'pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21tZjQ3dXpzeHJnIn0.oE5zp040ZzJj5QgCDznweg';
+
+			/** STORE **/
+			const reducers = (function createReducers(redux, keplerGl) {
+				return redux.combineReducers({
+					keplerGl: keplerGl.keplerGlReducer.initialState({
+						mapState: {
+							bearing: 0,
+							dragRotate: false,
+							latitude: 59.2524866929223,
+							longitude: 6.210011961670695,
+							pitch: 0,
+							zoom: 14.139508929944764,
+							isSplit: false
+						},
+						mapStyle: {
+							styleType: "4iyse6r",
+							topLayerGroups: {},
+							visibleLayerGroups: { "label": true, "road": true, "water": true },
+							threeDBuildingColor: [ 194.6103322548211, 191.81688250953655, 185.2988331038727 ],
+							mapStyles: {
+								"4iyse6r": {
+									accessToken: "pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21tZjQ3dXpzeHJnIn0.oE5zp040ZzJj5QgCDznweg",
+									custom: true,
+									icon: "https://api.mapbox.com/styles/v1/andreasatakan/cknsr5z2g0kxn17pl1tfrb5zo/static/-122.3391,37.7922,9,0,0/400x300?access_token=pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21tZjQ3dXpzeHJnIn0.oE5zp040ZzJj5QgCDznweg&logo=false&attribution=false",
+									id: "4iyse6r",
+									label: "Satellite Streets",
+									url: "mapbox://styles/andreasatakan/cknsr5z2g0kxn17pl1tfrb5zo"
+								},
+								"q9rnn97": {
+									accessToken: "pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21tZjQ3dXpzeHJnIn0.oE5zp040ZzJj5QgCDznweg",
+									custom: true,
+									icon: "https://api.mapbox.com/styles/v1/andreasatakan/cknsrmz140j2o17o3g4chphee/static/-122.3391,37.7922,9,0,0/400x300?access_token=pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21tZjQ3dXpzeHJnIn0.oE5zp040ZzJj5QgCDznweg&logo=false&attribution=false",
+									id: "q9rnn97",
+									label: "Streets",
+									url: "mapbox://styles/andreasatakan/cknsrmz140j2o17o3g4chphee"
+								}
+							}
+						},
+						uiState: {
+							currentModal: null,
+							activeSidePanel: false,
+							readOnly: true,
+							mapControls: {
+								mapInfo: {
+									show: true,
+									active: false,
+									info: {
+										title: "Norsk klimaskog",
+										description: "**Produksjonskart**, **Hjelmeland klimaskog**.",
+										dataUrl: "https://www.temakart-rogaland.no/klimaskog"
+									}
+								},
+								visibleLayers: { show: false },
+								mapLegend: {
+									show: true,
+									active: false
+								},
+								toggle3d: { show: true },
+								splitMap: { show: true },
+								mapDraw: { show: true },
+								mapLocale: { show: true }
+							}
+						}
+					})
+				});
+			}(Redux, KeplerGl));
+
+			const middleWares = (function createMiddlewares(keplerGl) {
+				return keplerGl.enhanceReduxMiddleware([
+					// Add other middlewares here
+				]);
+			}(KeplerGl));
+
+			const enhancers = (function craeteEnhancers(redux, middles) {
+				return redux.applyMiddleware(...middles);
+			}(Redux, middleWares));
+
+			const store = (function createStore(redux, enhancers) {
+				const initialState = {};
+
+				return redux.createStore(
+					reducers,
+					initialState,
+					redux.compose(enhancers)
+				);
+			}(Redux, enhancers));
+			/** END STORE **/
+
+			/** COMPONENTS **/
+			const KeplerElement = (function(react, keplerGl, mapboxToken) {
+				return function(props) {
+					let rootElm = react.useRef(null);
+
+					let _useState = react.useState({
+						width: window.innerWidth,
+						height: window.innerHeight
+					});
+
+					let windowDimension = _useState[0],
+						setDimension = _useState[1];
+
+					react.useEffect(function sideEffect() {
+						function handleResize() {
+							setDimension({ width: window.innerWidth, height: window.innerHeight });
+						};
+						window.addEventListener('resize', handleResize);
+						return function() { window.removeEventListener('resize', handleResize); };
+					}, []);
+
+					return react.createElement(
+						'div',
+						{ style: { position: 'absolute', left: 0, width: '100vw', height: '100vh' } },
+						react.createElement(keplerGl.KeplerGl, {
+							mapboxApiAccessToken: mapboxToken,
+							id: 'map',
+							width: windowDimension.width,
+							height: windowDimension.height,
+							appName: 'Napkin-Visual',
+							appWebsite: 'https://napkingis.no'
+						})
+					);
+				};
+			}(React, KeplerGl, MAPBOX_TOKEN));
+
+			const app = (function createReactReduxProvider(react, reactRedux, KeplerElement) {
+				return react.createElement(
+					reactRedux.Provider,
+					{ store },
+					react.createElement(KeplerElement, null)
+				)
+			}(React, ReactRedux, KeplerElement));
+			/** END COMPONENTS **/
+
+			/** Render **/
+			(function render(react, reactDOM, app) {
+				reactDOM.render(app, document.getElementById('app'));
+			}(React, ReactDOM, app));
+
+
+
+			(function customize(keplerGl, store) {
+			const datasets = [{"version":"v1","data":{"id":"1fhbsarqa","label":"artsobservasjoner.geojson","color":[0,92,255],"allData":[[{"type":"Feature","properties":{"norsknavn":"bergirisk","vitnavn_subspecies":"Linaria flavirostris","status":"NT","phylum":"Chordata","url":"https://www.artsobservasjoner.no/Sighting/10081377","collected_date":"2013-07-10T02:00:00","individual":4,"sex":null,"locality":"Hagalid, Hjelmeland, Ro","coordinate":500,"notes":"Activity: InNestingHabitat. Validationstatus: Approved Documented","okologi_habitat":null,"collector":"Rune Zakariassen|Anne Stine Zakariassen","basisofrec":"humanobservation","identified":null,"iname":"Norsk Ornitologisk Forening","cname":"so2-birds hos Norsk Ornitologisk Forening","kommunenummer":1133,"index":0},"geometry":{"type":"Point","coordinates":[6.207030361908076,59.25544546477468]}},"bergirisk","Linaria flavirostris","NT","Chordata","https://www.artsobservasjoner.no/Sighting/10081377","2013-07-10T02:00:00",4,null,"Hagalid, Hjelmeland, Ro",500,"Activity: InNestingHabitat. Validationstatus: Approved Documented",null,"Rune Zakariassen|Anne Stine Zakariassen","humanobservation",null,"Norsk Ornitologisk Forening","so2-birds hos Norsk Ornitologisk Forening",1133]],"fields":[{"name":"_geojson","type":"geojson","format":"","analyzerType":"GEOMETRY"},{"name":"norsknavn","type":"string","format":"","analyzerType":"STRING"},{"name":"vitnavn_subspecies","type":"string","format":"","analyzerType":"STRING"},{"name":"status","type":"string","format":"","analyzerType":"STRING"},{"name":"phylum","type":"string","format":"","analyzerType":"STRING"},{"name":"url","type":"string","format":"","analyzerType":"STRING"},{"name":"collected_date","type":"timestamp","format":"YYYY-M-DTH:m:s","analyzerType":"DATETIME"},{"name":"individual","type":"integer","format":"","analyzerType":"INT"},{"name":"sex","type":"string"},{"name":"locality","type":"string","format":"","analyzerType":"STRING"},{"name":"coordinate","type":"integer","format":"","analyzerType":"INT"},{"name":"notes","type":"string","format":"","analyzerType":"STRING"},{"name":"okologi_habitat","type":"string"},{"name":"collector","type":"string","format":"","analyzerType":"STRING"},{"name":"basisofrec","type":"string","format":"","analyzerType":"STRING"},{"name":"identified","type":"string"},{"name":"iname","type":"string","format":"","analyzerType":"STRING"},{"name":"cname","type":"string","format":"","analyzerType":"STRING"},{"name":"kommunenummer","type":"integer","format":"","analyzerType":"INT"}]}},{"version":"v1","data":{"id":"5gay08txf","label":"kulturminner.geojson","color":[248,177,149],"allData":[[{"type":"Feature","properties":{"navn":"Hagali – Gravminne","vernetype":"Automatisk fredet","opphav":"Rogaland fylkeskommune","linkaskeladden":"https://askeladden.ra.no/askeladden/?kid=65695-1","linkkulturminnesok":"http://kulturminnesok.no/ra/lokalitet/65695","oppdateringsdato":19000101120000,"index":0},"geometry":{"type":"Point","coordinates":[6.20209562595256,59.25609175241052]}},"Hagali – Gravminne","Automatisk fredet","Rogaland fylkeskommune","https://askeladden.ra.no/askeladden/?kid=65695-1","http://kulturminnesok.no/ra/lokalitet/65695",19000101120000],[{"type":"Feature","properties":{"navn":"Hagali – Røysfelt","vernetype":"Uavklart","opphav":"Arkeologisk museum","linkaskeladden":"https://askeladden.ra.no/askeladden/?kid=44449","linkkulturminnesok":"http://kulturminnesok.no/ra/lokalitet/44449","oppdateringsdato":19000101120000,"index":1},"geometry":{"type":"MultiPolygon","coordinates":[[[[6.208623787549487,59.256196697968605],[6.20835891424361,59.256089255820676],[6.208115001116736,59.25604375119328],[6.207838240533189,59.255948142802055],[6.207660543778426,59.255926111180855],[6.20749534946169,59.25593744401358],[6.207307426459169,59.25598877440043],[6.20706490916116,59.25610773694375],[6.20699898554689,59.25616466330916],[6.206943830434643,59.25625483638537],[6.206976006436856,59.25633469834484],[6.207054603017608,59.256385207075354],[6.207142305418642,59.25640743471279],[6.207353691895507,59.256367636518824],[6.20744190380517,59.25629958316014],[6.20763975532194,59.256237187398675],[6.207893774166894,59.25620300011883],[6.208071331087713,59.256191605132656],[6.208225217619405,59.256196661689415],[6.208248118661563,59.25623073414493],[6.208514200883383,59.256258781278845],[6.208623787549487,59.256196697968605]]]]}},"Hagali – Røysfelt","Uavklart","Arkeologisk museum","https://askeladden.ra.no/askeladden/?kid=44449","http://kulturminnesok.no/ra/lokalitet/44449",19000101120000]],"fields":[{"name":"_geojson","type":"geojson","format":"","analyzerType":"GEOMETRY"},{"name":"navn","type":"string","format":"","analyzerType":"STRING"},{"name":"vernetype","type":"string","format":"","analyzerType":"STRING"},{"name":"opphav","type":"string","format":"","analyzerType":"STRING"},{"name":"linkaskeladden","type":"string","format":"","analyzerType":"STRING"},{"name":"linkkulturminnesok","type":"string","format":"","analyzerType":"STRING"},{"name":"oppdateringsdato","type":"integer","format":"","analyzerType":"INT"}]}},{"version":"v1","data":{"id":"uvgwx097n","label":"klimaskog.geojson","color":[143,47,191],"allData":[[{"type":"Feature","properties":{"areal (dekar)":136.54,"Gårds- og bruksnummer ":"57/1","index":0},"geometry":{"type":"Polygon","coordinates":[[[6.193681138419644,59.24992246751295],[6.19485579757356,59.24828989038378],[6.195632267183775,59.24778219871557],[6.195751724046885,59.24798129348741],[6.19609018515903,59.248011157703196],[6.196796971599098,59.24768265132964],[6.197105568495465,59.24739396391046],[6.197951721275828,59.24731432600172],[6.197862128628495,59.2469360459352],[6.19835986555812,59.246736951163356],[6.198210544479233,59.24650799217572],[6.197055794802503,59.246478127959946],[6.197075704279688,59.246279033188095],[6.198031359184568,59.24578129625847],[6.198409639251083,59.24535324249899],[6.200739048081728,59.24503469086404],[6.202122756746086,59.24473604870626],[6.202720041061636,59.24493514347811],[6.203436782240296,59.24450708971863],[6.206134516398865,59.24408899069775],[6.206622298589897,59.24417858334508],[6.206821393361747,59.24450708971863],[6.207548089278999,59.244517044457226],[6.207856686175367,59.24474600344485],[6.208025916731439,59.24535324249899],[6.206423203818047,59.245064555079814],[6.205865738456867,59.2456120657024],[6.204561667701249,59.24560211096381],[6.203596058057776,59.245343287760406],[6.202550810505564,59.24505460034122],[6.201356241874463,59.24509441929559],[6.200838595467653,59.24532337828322],[6.201804205111126,59.2461496215864],[6.200629545957211,59.246577675345875],[6.199564388927813,59.24756319446653],[6.198419593989676,59.24889712943793],[6.197264844312945,59.249006631562445],[6.196418691532583,59.24938491162896],[6.196966202155171,59.2499921506831],[6.196149913590586,59.2501315170234],[6.195950818818735,59.25053966130569],[6.194925480743708,59.250519751828506],[6.193681138419644,59.24992246751295]]]}},136.54,"57/1"]],"fields":[{"name":"_geojson","type":"geojson","format":"","analyzerType":"GEOMETRY"},{"name":"areal (dekar)","type":"real","format":"","analyzerType":"FLOAT"},{"name":"Gårds- og bruksnummer ","type":"string","format":"","analyzerType":"STRING"}]}},{"version":"v1","data":{"id":"udcnw19yn","label":"karbonligning.geojson","color":[62,172,168],"allData":[[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":60,"bonitet før planting":"Bjørk 14","bonitet etter planting":23,"foryngelsesmetode":"Planting under skjerm","H.kl":2,"tetthet":"B","år":33,"Prod.areal":21,"Volum registrering før planting":212,"vol/daa":10.3,"biomasse over bakken":65.4,"biomasse under bakken":16.3,"Netto binding Co2 fra Biomasse":69.9,"Total binding Co2/da":99.3,"Total binding Co2":2047.8,"Risk margin Tonn/co2":810,"index":0},"geometry":{"type":"Polygon","coordinates":[[[6.2140809168799,59.26085240254768],[6.214117630864625,59.26077081591495],[6.214215534823893,59.26061988064441],[6.214280804130071,59.26054237334333],[6.214219614155529,59.26043631072079],[6.214284883461707,59.26013851951135],[6.214223693487165,59.25993047359791],[6.214048282226812,59.2597713796641],[6.214305280119888,59.259742824342645],[6.214794799916223,59.25977953832737],[6.215068115135844,59.25982849030701],[6.216128741361238,59.25986928362337],[6.216295993958319,59.25982849030701],[6.216434691233947,59.25983664897028],[6.216618261157573,59.25983256963864],[6.216618261157573,59.25993455292954],[6.216593785167756,59.260032456888815],[6.216373501259405,59.26019155082262],[6.216487722545217,59.26025274079716],[6.216606023162665,59.26024458213389],[6.216826307071016,59.260211947480805],[6.217026194321186,59.26016707483281],[6.217217922908084,59.26016707483281],[6.217209764244812,59.2602568201288],[6.217254636892809,59.2603016927768],[6.217364778846985,59.26028537545025],[6.217536110775702,59.260415914062605],[6.217597300750245,59.260395517404426],[6.218090899878216,59.260428152057514],[6.218433563735651,59.2605056593586],[6.21826631113857,59.26058316665969],[6.217846139980049,59.260713705272046],[6.217360699515349,59.26090951319058],[6.217262795556081,59.26093806851203],[6.217030273652822,59.2607993712364],[6.216944607688464,59.260734101930225],[6.216756958433201,59.260730022598594],[6.216557071183031,59.26077081591495],[6.216247041978685,59.26085240254768],[6.216059392723423,59.2608891165324],[6.215826870820164,59.2608442438844],[6.215643300896538,59.26087687853749],[6.215476048299457,59.260897275195674],[6.215349589018737,59.26085648187931],[6.215255764391106,59.2608442438844],[6.214986528503121,59.26081976789459],[6.214713213283501,59.260913592522215],[6.2140809168799,59.26085240254768]]]}},"11330005700010000",60,"Bjørk 14",23,"Planting under skjerm",2,"B",33,21,212,10.3,65.4,16.3,69.9,99.3,2047.8,810],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":65,"bonitet før planting":"0","bonitet etter planting":"","foryngelsesmetode":"","H.kl":0,"tetthet":"","år":"","Prod.areal":0,"Volum registrering før planting":0,"vol/daa":0,"biomasse over bakken":0,"biomasse under bakken":0,"Netto binding Co2 fra Biomasse":0,"Total binding Co2/da":0,"Total binding Co2":0,"Risk margin Tonn/co2":0,"index":1},"geometry":{"type":"Polygon","coordinates":[[[6.214713213283501,59.260913592522215],[6.214986528503121,59.26081976789459],[6.215255764391106,59.2608442438844],[6.215349589018737,59.26085648187931],[6.215476048299457,59.260897275195674],[6.215643300896538,59.26087687853749],[6.215826870820164,59.2608442438844],[6.216059392723423,59.2608891165324],[6.216247041978685,59.26085240254768],[6.216557071183031,59.26077081591495],[6.216756958433201,59.260730022598594],[6.216944607688464,59.260734101930225],[6.217030273652822,59.2607993712364],[6.217262795556081,59.26093806851203],[6.216809989744471,59.261068607124386],[6.216153217351055,59.2611379557622],[6.215904378121251,59.261272573706194],[6.21588398146307,59.26132560501747],[6.215610666243449,59.26135008100728],[6.215471968967821,59.26136231900219],[6.215255764391106,59.26135008100728],[6.215161939763475,59.26131744635419],[6.21507219446748,59.261248097716376],[6.214835593232585,59.261227701058196],[6.214855989890765,59.261080845119295],[6.214790720584587,59.26099925848658],[6.214713213283501,59.260913592522215]]]}},"11330005700010000",65,"0",null,null,0,null,null,0,0,0,0,0,0,0,0,0],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":61,"bonitet før planting":"0","bonitet etter planting":"","foryngelsesmetode":"","H.kl":0,"tetthet":"","år":"","Prod.areal":0,"Volum registrering før planting":0,"vol/daa":0,"biomasse over bakken":0,"biomasse under bakken":0,"Netto binding Co2 fra Biomasse":0,"Total binding Co2/da":0,"Total binding Co2":0,"Risk margin Tonn/co2":0,"index":2},"geometry":{"type":"Polygon","coordinates":[[[6.214835593232585,59.261227701058196],[6.21507219446748,59.261248097716376],[6.215161939763475,59.26131744635419],[6.215255764391106,59.26135008100728],[6.215471968967821,59.26136231900219],[6.215610666243449,59.26135008100728],[6.21588398146307,59.26132560501747],[6.215871743468163,59.26138679499201],[6.215949250769248,59.26141942964509],[6.216116503366329,59.26143778663745],[6.216210327993961,59.261427588308365],[6.216357183932861,59.261407191650186],[6.216377580591042,59.26146634195891],[6.216353104601225,59.26157240458144],[6.216283755963411,59.2616458325509],[6.216183812338326,59.26171518118871],[6.21612670169542,59.26173149851525],[6.215994123417246,59.26172945884944],[6.215908457452887,59.26173761751271],[6.215651459559811,59.2616458325509],[6.215573952258724,59.26164379288508],[6.215410778993279,59.261682546535624],[6.215090551459842,59.26166011021162],[6.21496613184494,59.26161727722944],[6.21491310053367,59.26158056324472],[6.214829474235129,59.261539769928355],[6.214656102640594,59.26152141293599],[6.21458675400278,59.26147450062218],[6.214517405364965,59.26141738997927],[6.214654062974776,59.26135823967055],[6.214772363592224,59.261297049696005],[6.214835593232585,59.261227701058196]]]}},"11330005700010000",61,"0",null,null,0,null,null,0,0,0,0,0,0,0,0,0],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":74,"bonitet før planting":"Bjørk 14","bonitet etter planting":23,"foryngelsesmetode":"Planting under skjerm","H.kl":1,"tetthet":"B","år":0,"Prod.areal":6,"Volum registrering før planting":0,"vol/daa":0,"biomasse over bakken":76.4,"biomasse under bakken":19.1,"Netto binding Co2 fra Biomasse":95.5,"Total binding Co2/da":124.8,"Total binding Co2":726.4,"Risk margin Tonn/co2":377.2,"index":3},"geometry":{"type":"Polygon","coordinates":[[[6.216295993958319,59.25982849030701],[6.216434691233947,59.25983664897028],[6.216618261157573,59.25983256963864],[6.216618261157573,59.25993455292954],[6.216593785167756,59.260032456888815],[6.216373501259405,59.26019155082262],[6.216487722545217,59.26025274079716],[6.216606023162665,59.26024458213389],[6.216826307071016,59.260211947480805],[6.217026194321186,59.26016707483281],[6.217217922908084,59.26016707483281],[6.217277073216806,59.259922314934634],[6.217280132715532,59.259790756489366],[6.217359679682438,59.25963472205429],[6.217420869656979,59.259579651077196],[6.217506535621339,59.259552115588654],[6.217693165043691,59.25952152060138],[6.21789509195968,59.25953375859629],[6.21810619737185,59.25952458010011],[6.218207160829844,59.259448092631935],[6.218121494865485,59.25935936716885],[6.218035828901127,59.259328772181576],[6.217705403038599,59.259224749224856],[6.217598320583151,59.25919415423758],[6.217200585748628,59.259172737746496],[6.217246478229534,59.259224749224856],[6.217225061738445,59.25930735569049],[6.217056789308455,59.259353248171394],[6.216744720438291,59.259383843158666],[6.216613161993025,59.25943891413575],[6.216542793522302,59.25952458010011],[6.216512198535031,59.259656138545374],[6.216447949061761,59.25970509052501],[6.216325569112677,59.259711209522465],[6.216203189163593,59.25971732851992],[6.216187891669958,59.2597601615021],[6.216295993958319,59.25982849030701]]]}},"11330005700010000",74,"Bjørk 14",23,"Planting under skjerm",1,"B",0,6,0,0,76.4,19.1,95.5,124.8,726.4,377.2],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":200,"bonitet før planting":"0","bonitet etter planting":"","foryngelsesmetode":"","H.kl":0,"tetthet":"","år":"","Prod.areal":0,"Volum registrering før planting":0,"vol/daa":0,"biomasse over bakken":0,"biomasse under bakken":0,"Netto binding Co2 fra Biomasse":0,"Total binding Co2/da":0,"Total binding Co2":0,"Risk margin Tonn/co2":0,"index":4},"geometry":{"type":"Polygon","coordinates":[[[6.217364778846985,59.26028537545025],[6.217254636892809,59.2603016927768],[6.217209764244812,59.2602568201288],[6.217217922908084,59.26016707483281],[6.217277073216806,59.259922314934634],[6.217280132715532,59.259790756489366],[6.217359679682438,59.25963472205429],[6.217420869656979,59.259579651077196],[6.217506535621339,59.259552115588654],[6.217693165043691,59.25952152060138],[6.21789509195968,59.25953375859629],[6.21810619737185,59.25952458010011],[6.218083251131397,59.259619424560654],[6.217976168675949,59.25966684679092],[6.217755884767598,59.259669906289645],[6.217694694793056,59.259682144284554],[6.217676337800693,59.259734155762914],[6.217774241759961,59.25976781024891],[6.2178690862205,59.259825940724724],[6.217970049678495,59.25993914217763],[6.217807896245959,59.25994526117508],[6.21767939729942,59.25997891566108],[6.217578433841426,59.260027867640716],[6.21748970837834,59.26014106909362],[6.217364778846985,59.26028537545025]]]}},"11330005700010000",200,"0",null,null,0,null,null,0,0,0,0,0,0,0,0,0],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":null,"bonitet før planting":"0","bonitet etter planting":"","foryngelsesmetode":"","H.kl":0,"tetthet":"","år":"","Prod.areal":0,"Volum registrering før planting":0,"vol/daa":0,"biomasse over bakken":0,"biomasse under bakken":0,"Netto binding Co2 fra Biomasse":0,"Total binding Co2/da":0,"Total binding Co2":0,"Risk margin Tonn/co2":0,"index":5},"geometry":{"type":"Polygon","coordinates":[[[6.216483133297122,59.25682763197217],[6.216507609286939,59.25673584701036],[6.216461716806032,59.256650181046],[6.216480073798395,59.256567574580366],[6.216556561266573,59.256484968114734],[6.216675881716929,59.25642683763892],[6.216850273144374,59.25641765914274],[6.217039962065455,59.25637788565929],[6.217177639508174,59.25634729067202],[6.217174580009447,59.25630751718857],[6.217410161411434,59.25624020821657],[6.217618207324876,59.2561759587433],[6.217734468276506,59.256169839745844],[6.217918038200132,59.2561759587433],[6.217954752184857,59.25608111428276],[6.217921097698859,59.25603522180185],[6.217795658251048,59.255949555837496],[6.217728349279052,59.25587306836932],[6.217703873289235,59.255787402404955],[6.217673278301964,59.25571091493678],[6.217553957851607,59.255548761504244],[6.21755089835288,59.255484512030975],[6.217651861810874,59.255417203058975],[6.217777301258685,59.25535295358571],[6.217795658251048,59.25528870411244],[6.217749765770141,59.255218335641715],[6.217517243866882,59.255270347120074],[6.217251067477624,59.25531012060353],[6.216963474597277,59.255432500552615],[6.216945117604914,59.25549369052715],[6.217015486075637,59.25556405899788],[6.217061378556544,59.25557323749406],[6.217049140561635,59.25562218947369],[6.216997129083275,59.255631367969876],[6.216954296101095,59.255683379448236],[6.216712595701654,59.2556680819546],[6.216642227230931,59.25571397443551],[6.216593275251298,59.25580575939732],[6.216608572744933,59.25584553288077],[6.216590215752571,59.25597403182731],[6.216510668785665,59.25602298380694],[6.216483133297122,59.25609029277894],[6.216400526831491,59.25612088776621],[6.216333217859495,59.256105590272576],[6.21628426587986,59.25605663829294],[6.216112933951143,59.2560291028044],[6.216036446482965,59.25607193578658],[6.216045624979147,59.25616372074839],[6.216082338963872,59.25623408921911],[6.216030327485512,59.25630139819111],[6.215874293050429,59.256356469168196],[6.215733556108982,59.25639930215038],[6.215702961121711,59.256472730119825],[6.215657068640805,59.25650638460583],[6.215650949643351,59.25653392009437],[6.215773329592435,59.256582872074006],[6.215855936058067,59.25661346706127],[6.215886531045338,59.25666547853964],[6.216122112447324,59.25670219252436],[6.216149647935868,59.25676950149636],[6.216192480918047,59.25682763197217],[6.216268968386225,59.256855167460714],[6.216428062320034,59.256855167460714],[6.216483133297122,59.25682763197217]]]}},"11330005700010000",null,"0",null,null,0,null,null,0,0,0,0,0,0,0,0,0],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":88,"bonitet før planting":"Bjørk 11","bonitet etter planting":23,"foryngelsesmetode":"Planting","H.kl":3,"tetthet":"A","år":43,"Prod.areal":5,"Volum registrering før planting":5,"vol/daa":0.9,"biomasse over bakken":70.9,"biomasse under bakken":17.7,"Netto binding Co2 fra Biomasse":87.6,"Total binding Co2/da":111,"Total binding Co2":607.4,"Risk margin Tonn/co2":279.2,"index":6},"geometry":{"type":"Polygon","coordinates":[[[6.217939454691223,59.256420718641465],[6.217988406670856,59.25637788565929],[6.21803735865049,59.25630751718857],[6.218205631080481,59.25635952866693],[6.218373903510471,59.25644213513256],[6.218505461955736,59.2565033251071],[6.218747162355177,59.25641459964401],[6.218789995337357,59.25627998170002],[6.218741043357722,59.25621879172548],[6.218646198897183,59.25613924475857],[6.218557473434097,59.25610253077385],[6.218334130027019,59.25609029277894],[6.218285178047385,59.25606887628785],[6.218309654037202,59.25598932932095],[6.218355546518108,59.255946496338765],[6.21851158095319,59.255894484860406],[6.218707388871724,59.255799640399864],[6.218734924360269,59.25575680741768],[6.218927672780076,59.255775164410046],[6.219031695736797,59.25584553288077],[6.219117361701156,59.255918960850224],[6.219154075685881,59.25595567483495],[6.219196908668061,59.25604440029803],[6.219325407614599,59.25609335227767],[6.21998931883838,59.25638706415547],[6.219961783349835,59.256432956636374],[6.219824105907116,59.25641765914274],[6.21966195247458,59.25643907563383],[6.219441668566229,59.25646661112237],[6.219227503655332,59.25650944410455],[6.218872601802988,59.25665324054473],[6.218588068421368,59.25664100254982],[6.218551354436642,59.25666853803836],[6.218514640451917,59.25678479898999],[6.218398379500288,59.256845988964535],[6.218334130027019,59.256842929465805],[6.218242345065206,59.25681233447853],[6.218239285566479,59.25673584701036],[6.218196452584299,59.256631824053635],[6.218107727121213,59.25652474159819],[6.217939454691223,59.256420718641465]]]}},"11330005700010000",88,"Bjørk 11",23,"Planting",3,"A",43,5,5,0.9,70.9,17.7,87.6,111,607.4,279.2],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":81,"bonitet før planting":"0","bonitet etter planting":"","foryngelsesmetode":"","H.kl":0,"tetthet":"","år":"","Prod.areal":0,"Volum registrering før planting":0,"vol/daa":0,"biomasse over bakken":0,"biomasse under bakken":0,"Netto binding Co2 fra Biomasse":0,"Total binding Co2/da":0,"Total binding Co2":0,"Risk margin Tonn/co2":0,"index":7},"geometry":{"type":"Polygon","coordinates":[[[6.217939454691223,59.256420718641465],[6.218107727121213,59.25652474159819],[6.218196452584299,59.256631824053635],[6.218239285566479,59.25673584701036],[6.218242345065206,59.25681233447853],[6.218334130027019,59.256842929465805],[6.218398379500288,59.256845988964535],[6.218514640451917,59.25678479898999],[6.218551354436642,59.25666853803836],[6.218588068421368,59.25664100254982],[6.218872601802988,59.25665324054473],[6.219227503655332,59.25650944410455],[6.219441668566229,59.25646661112237],[6.21966195247458,59.25643907563383],[6.219824105907116,59.25641765914274],[6.219961783349835,59.256432956636374],[6.21998931883838,59.25638706415547],[6.220229489488458,59.256521682099475],[6.220107109539374,59.25663488355238],[6.220073455053375,59.25675114450401],[6.219902123124657,59.25678173949128],[6.219669601221398,59.25683069147092],[6.219596173251947,59.256839869967095],[6.219302461374146,59.25681233447855],[6.219271866386875,59.256894940944186],[6.219299401875419,59.25692859543018],[6.219271866386875,59.2570326183869],[6.219131129445429,59.25712134384999],[6.21911889145052,59.257194771819435],[6.219005689997617,59.25722536680671],[6.218825179572718,59.25722536680671],[6.218708918621089,59.25724372379907],[6.21858041967455,59.25726514029016],[6.218525348697463,59.25730797327234],[6.218497813208919,59.25740281773288],[6.218418266242014,59.25745176971252],[6.218335659776383,59.257540495175604],[6.218139851857848,59.2576536966285],[6.218072542885852,59.2576536966285],[6.217944043939314,59.257620042142506],[6.217855318476228,59.25761086364633],[6.217677867550056,59.257552733170506],[6.217586082588243,59.25748236469978],[6.217527952112428,59.25741505572779],[6.217485119130249,59.2573263302647],[6.217445345646796,59.25724066430035],[6.217436167150615,59.25711216535381],[6.217436167150615,59.257038737384356],[6.21739945316589,59.25702038039199],[6.217396393667163,59.256986725905996],[6.217277073216806,59.256931654928906],[6.217332144193894,59.256784798990005],[6.217414750659525,59.25672360901547],[6.217479000132794,59.2566593595422],[6.217527952112428,59.2565920505702],[6.217939454691223,59.256420718641465]]]}},"11330005700010000",81,"0",null,null,0,null,null,0,0,0,0,0,0,0,0,0],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":92,"bonitet før planting":"Bjørk 11","bonitet etter planting":20,"foryngelsesmetode":"Planting under skjerm","H.kl":3,"tetthet":"A","år":43,"Prod.areal":3,"Volum registrering før planting":7,"vol/daa":2.2,"biomasse over bakken":57.9,"biomasse under bakken":14.5,"Netto binding Co2 fra Biomasse":69.8,"Total binding Co2/da":99.1,"Total binding Co2":311.3,"Risk margin Tonn/co2":122.9,"index":8},"geometry":{"type":"Polygon","coordinates":[[[6.220229489488458,59.256521682099475],[6.220107109539374,59.25663488355238],[6.220073455053375,59.25675114450401],[6.219902123124657,59.25678173949128],[6.219669601221398,59.25683069147092],[6.219596173251947,59.256839869967095],[6.219302461374146,59.25681233447855],[6.219271866386875,59.256894940944186],[6.219299401875419,59.25692859543018],[6.219271866386875,59.2570326183869],[6.219131129445429,59.25712134384999],[6.21911889145052,59.257194771819435],[6.219201497916153,59.25717641482707],[6.21924739039706,59.25713664134362],[6.219440138816867,59.25716111733344],[6.219406484330869,59.257259021292704],[6.219565578264678,59.25727125928761],[6.219697136709943,59.25724066430034],[6.219896004127205,59.25717641482707],[6.220015324577561,59.25717029582962],[6.220128526030464,59.257154998335984],[6.220146883022827,59.257102986857625],[6.220211132496096,59.25698060690854],[6.220269262971911,59.25687352445309],[6.220357988434997,59.25679091798746],[6.220611926829346,59.25681539397728],[6.220648640814071,59.256781739491274],[6.220636402819163,59.256705252023096],[6.220578272343348,59.25665018104601],[6.220229489488458,59.256521682099475]]]}},"11330005700010000",92,"Bjørk 11",20,"Planting under skjerm",3,"A",43,3,7,2.2,57.9,14.5,69.8,99.1,311.3,122.9],[{"type":"Feature","properties":{"HovedNr.":"11330005700010000","bestand":87,"bonitet før planting":"0","bonitet etter planting":"","foryngelsesmetode":"","H.kl":0,"tetthet":"","år":"","Prod.areal":0,"Volum registrering før planting":0,"vol/daa":0,"biomasse over bakken":0,"biomasse under bakken":0,"Netto binding Co2 fra Biomasse":0,"Total binding Co2/da":0,"Total binding Co2":0,"Risk margin Tonn/co2":0,"index":9},"geometry":{"type":"Polygon","coordinates":[[[6.220128526030464,59.257154998335984],[6.220015324577561,59.25717029582962],[6.219896004127205,59.25717641482707],[6.219697136709943,59.25724066430034],[6.219565578264678,59.25727125928761],[6.219406484330869,59.257259021292704],[6.219390421962553,59.25729114602934],[6.219154840560566,59.25736074962538],[6.21912654019734,59.25743800196824],[6.218983508631847,59.25749230807066],[6.218910080662396,59.25749536756938],[6.218784641214585,59.25739746361012],[6.218637785275685,59.25739746361012],[6.218497813208919,59.25740281773288],[6.218418266242014,59.25745176971252],[6.218335659776383,59.257540495175604],[6.218139851857848,59.2576536966285],[6.218362430390246,59.25765752100192],[6.218622487782049,59.25767281849555],[6.218867247680217,59.2577003539841],[6.219035520110208,59.257773781953546],[6.219216030535106,59.257798257943364],[6.219543396898906,59.25792369739118],[6.219772859303438,59.2580063038568],[6.219837108776708,59.2579604113759],[6.219876882260159,59.25792981638863],[6.219876882260159,59.257877804910265],[6.21980345429071,59.257890042905174],[6.219763680807257,59.25784415042427],[6.219757561809803,59.25779519844463],[6.219763680807257,59.25771565147773],[6.21966577684799,59.257678937493004],[6.219702490832715,59.2575993905261],[6.219653538853081,59.25756573604011],[6.219736145318714,59.25752596255665],[6.219886060756341,59.257431118096115],[6.219999262209243,59.257428058597384],[6.220179772634142,59.25743417759484],[6.220265438598501,59.25740970160502],[6.220427592031037,59.25734545213175],[6.220369461555222,59.25726590516485],[6.220271557595956,59.25722919118012],[6.220128526030464,59.257154998335984]]]}},"11330005700010000",87,"0",null,null,0,null,null,0,0,0,0,0,0,0,0,0]],"fields":[{"name":"_geojson","type":"geojson","format":"","analyzerType":"GEOMETRY"},{"name":"HovedNr.","type":"string","format":"","analyzerType":"NUMBER"},{"name":"bestand","type":"integer","format":"","analyzerType":"INT"},{"name":"bonitet før planting","type":"string","format":"","analyzerType":"STRING"},{"name":"bonitet etter planting","type":"integer","format":"","analyzerType":"INT"},{"name":"foryngelsesmetode","type":"string","format":"","analyzerType":"STRING"},{"name":"H.kl","type":"integer","format":"","analyzerType":"INT"},{"name":"tetthet","type":"string","format":"","analyzerType":"STRING"},{"name":"år","type":"integer","format":"","analyzerType":"INT"},{"name":"Prod.areal","type":"integer","format":"","analyzerType":"INT"},{"name":"Volum registrering før planting","type":"integer","format":"","analyzerType":"INT"},{"name":"vol/daa","type":"real","format":"","analyzerType":"FLOAT"},{"name":"biomasse over bakken","type":"real","format":"","analyzerType":"FLOAT"},{"name":"biomasse under bakken","type":"real","format":"","analyzerType":"FLOAT"},{"name":"Netto binding Co2 fra Biomasse","type":"real","format":"","analyzerType":"FLOAT"},{"name":"Total binding Co2/da","type":"real","format":"","analyzerType":"FLOAT"},{"name":"Total binding Co2","type":"real","format":"","analyzerType":"FLOAT"},{"name":"Risk margin Tonn/co2","type":"real","format":"","analyzerType":"FLOAT"}]}}];
+            const config = {"version":"v1","config":{"visState":{"filters":[],"layers":[{"id":"cxrlzh4","type":"geojson","config":{"dataId":"udcnw19yn","label":"karbonligning","color":[43,143,112],"columns":{"geojson":"_geojson"},"isVisible":true,"visConfig":{"opacity":0.6,"strokeOpacity":0.8,"thickness":0.1,"strokeColor":[32,27,23],"colorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"strokeColorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"radius":10,"sizeRange":[0,10],"radiusRange":[0,50],"heightRange":[0,500],"elevationScale":5,"stroked":true,"filled":true,"enable3d":false,"wireframe":false},"hidden":false,"textLabel":[{"field":null,"color":[255,255,255],"size":18,"offset":[0,0],"anchor":"start","alignment":"center"}]},"visualChannels":{"colorField":null,"colorScale":"quantile","strokeColorField":null,"strokeColorScale":"quantile","sizeField":null,"sizeScale":"linear","heightField":null,"heightScale":"linear","radiusField":null,"radiusScale":"linear"}},{"id":"j8urzys","type":"geojson","config":{"dataId":"uvgwx097n","label":"klimaskog","color":[166,165,165],"columns":{"geojson":"_geojson"},"isVisible":true,"visConfig":{"opacity":0.4,"strokeOpacity":0.8,"thickness":0.1,"strokeColor":[32,27,23],"colorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"strokeColorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"radius":10,"sizeRange":[0,10],"radiusRange":[0,50],"heightRange":[0,500],"elevationScale":0.1,"stroked":true,"filled":true,"enable3d":true,"wireframe":true},"hidden":false,"textLabel":[{"field":null,"color":[255,255,255],"size":18,"offset":[0,0],"anchor":"start","alignment":"center"}]},"visualChannels":{"colorField":null,"colorScale":"quantile","strokeColorField":null,"strokeColorScale":"quantile","sizeField":null,"sizeScale":"linear","heightField":null,"heightScale":"linear","radiusField":null,"radiusScale":"linear"}},{"id":"efypavc","type":"geojson","config":{"dataId":"1fhbsarqa","label":"artsobservasjoner","color":[214,82,0],"columns":{"geojson":"_geojson"},"isVisible":true,"visConfig":{"opacity":0.6,"strokeOpacity":0.8,"thickness":0.1,"strokeColor":[32,27,23],"colorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"strokeColorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"radius":5,"sizeRange":[0,10],"radiusRange":[0,50],"heightRange":[0,500],"elevationScale":5,"stroked":true,"filled":true,"enable3d":false,"wireframe":false},"hidden":false,"textLabel":[{"field":null,"color":[255,255,255],"size":18,"offset":[0,0],"anchor":"start","alignment":"center"}]},"visualChannels":{"colorField":null,"colorScale":"quantile","strokeColorField":null,"strokeColorScale":"quantile","sizeField":null,"sizeScale":"linear","heightField":null,"heightScale":"linear","radiusField":null,"radiusScale":"linear"}},{"id":"g6c4ox6","type":"geojson","config":{"dataId":"5gay08txf","label":"kulturminner","color":[200,70,0],"columns":{"geojson":"_geojson"},"isVisible":true,"visConfig":{"opacity":0.6,"strokeOpacity":0.8,"thickness":0.1,"strokeColor":[32,27,23],"colorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"strokeColorRange":{"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},"radius":5,"sizeRange":[0,10],"radiusRange":[0,50],"heightRange":[0,500],"elevationScale":5,"stroked":true,"filled":true,"enable3d":false,"wireframe":false},"hidden":false,"textLabel":[{"field":null,"color":[255,255,255],"size":18,"offset":[0,0],"anchor":"start","alignment":"center"}]},"visualChannels":{"colorField":null,"colorScale":"quantile","strokeColorField":null,"strokeColorScale":"quantile","sizeField":null,"sizeScale":"linear","heightField":null,"heightScale":"linear","radiusField":null,"radiusScale":"linear"}}],"interactionConfig":{"tooltip":{"fieldsToShow":{"1fhbsarqa":[{"name":"norsknavn","format":null},{"name":"vitnavn_subspecies","format":null},{"name":"status","format":null},{"name":"phylum","format":null},{"name":"url","format":null}],"5gay08txf":[{"name":"navn","format":null},{"name":"vernetype","format":null},{"name":"opphav","format":null},{"name":"linkaskeladden","format":null},{"name":"linkkulturminnesok","format":null}],"uvgwx097n":[{"name":"areal (dekar)","format":null},{"name":"Gårds- og bruksnummer ","format":null}],"udcnw19yn":[{"name":"HovedNr.","format":null},{"name":"bestand","format":null},{"name":"bonitet før planting","format":null},{"name":"bonitet etter planting","format":null},{"name":"foryngelsesmetode","format":null}]},"compareMode":false,"compareType":"absolute","enabled":true},"brush":{"size":0.5,"enabled":false},"geocoder":{"enabled":false},"coordinate":{"enabled":false}},"layerBlending":"normal","splitMaps":[],"animationConfig":{"currentTime":null,"speed":1}}}};
+
+            const loadedData = keplerGl.KeplerGlSchema.load(
+              datasets,
+              config
+            );
+
+            store.dispatch(keplerGl.addDataToMap({
+              datasets: loadedData.datasets,
+              config: loadedData.config,
+              options: {
+                centerMap: false
+              }
+            }));
+
+			}(KeplerGl, store));
+		</script>
+	</body>
+</html>

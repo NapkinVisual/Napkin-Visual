@@ -1,6 +1,6 @@
 /*©agpl*************************************************************************
 *                                                                              *
-* Napkin Visual – Visualisation platform for the Napkin platform               *
+* Napkin-Visual – High powered map-visualizations                              *
 * Copyright (C) 2020  Napkin AS                                                *
 *                                                                              *
 * This program is free software: you can redistribute it and/or modify         *
@@ -253,8 +253,5 @@
 		}
 	}));
 	*/
-
-
-	// TODO: use the above data-import and fetch call to cook up a dynamic-data example using, for example, finantial data, social-media data or GitHub pull/clone data
 
 }(KeplerGl, store));

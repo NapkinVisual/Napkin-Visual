@@ -1,7 +1,7 @@
 <!--
 /*©agpl*************************************************************************
 *                                                                              *
-* Napkin Visual – Visualisation platform for the Napkin platform               *
+* Napkin-Visual – High powered map-visualizations                              *
 * Copyright (C) 2020  Napkin AS                                                *
 *                                                                              *
 * This program is free software: you can redistribute it and/or modify         *
@@ -28,7 +28,7 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-		<title>Napkin Visual – Twitter data</title>
+		<title>Napkin-Visual – Global tweets</title>
 
 		<link rel="icon" href="assets/logo.svg" />
 
@@ -91,8 +91,28 @@
 						},
 						uiState: {
 							currentModal: null,
-							//activeSidePanel: false,
-							readOnly: false
+							activeSidePanel: false,
+							readOnly: true,
+							mapControls: {
+								mapInfo: {
+									show: true,
+									active: true,
+									info: {
+										title: "Global tweets",
+										description: "A visualization of **tweets** relating to the **top 5 trends worldwide**.",
+										dataUrl: "https://developer.twitter.com/en"
+									}
+								},
+								visibleLayers: { show: false },
+								mapLegend: {
+									show: true,
+									active: false
+								},
+								toggle3d: { show: true },
+								splitMap: { show: true },
+								mapDraw: { show: true },
+								mapLocale: { show: true }
+							}
 						}
 					})
 				});
@@ -148,7 +168,7 @@
 							id: 'map',
 							width: windowDimension.width,
 							height: windowDimension.height,
-							appName: 'Napkin Visual',
+							appName: 'Napkin-Visual',
 							appWebsite: 'https://napkingis.no'
 						})
 					);
@@ -176,12 +196,11 @@
 				//store.dispatch(keplerGl.toggleSplitMap());
 				//let exportMapData = function() { return KeplerGl.KeplerGlSchema.save(store.getState().keplerGl.map); };
 
-				const dataId = makeid(8);
 				const datasets = [
 					{
 						"version": "v1",
 						"data": {
-							"id": dataId,
+							"id": "tweets",
 							"label": "twitter.csv",
 							"color": [ 143, 47, 191 ],
 							"allData": [],
@@ -206,7 +225,7 @@
 									"id": "cO7POIFy",
 									"type": "heatmap",
 									"config": {
-										"dataId": dataId,
+										"dataId": "tweets",
 										"label": "Tweets",
 										"color": [30,150,190],
 										"columns": { "lat": "lat", "lng": "lon" },
@@ -229,14 +248,16 @@
 							],
 							"interactionConfig": {
 								"tooltip": {
-									"fieldsToShow": { "cO7POIFy": [ /*{"name":"id","format":null}, {"name":"count","format":null}*/ ] },
+									"fieldsToShow": {
+										"tweets": [ /*{"name":"id","format":null}, {"name":"count","format":null}*/ ]
+									},
 									"compareMode": false,
 									"compareType": "absolute",
 									"enabled": false
 								},
 								"brush": { "size": 0.5, "enabled": false },
-								"geocoder": { "enabled": true },
-								"coordinate": { "enabled":false }
+								"geocoder": { "enabled": false },
+								"coordinate": { "enabled": false }
 							},
 							"layerBlending": "normal",
 							"splitMaps": [],

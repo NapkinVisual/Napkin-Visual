@@ -1,0 +1,371 @@
+<!--
+/*©agpl*************************************************************************
+*                                                                              *
+* Napkin-Visual – High powered map-visualizations                              *
+* Copyright (C) 2020  Napkin AS                                                *
+*                                                                              *
+* This program is free software: you can redistribute it and/or modify         *
+* it under the terms of the GNU Affero General Public License as published by  *
+* the Free Software Foundation, either version 3 of the License, or            *
+* (at your option) any later version.                                          *
+*                                                                              *
+* This program is distributed in the hope that it will be useful,              *
+* but WITHOUT ANY WARRANTY; without even the implied warranty of               *
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the                 *
+* GNU Affero General Public License for more details.                          *
+*                                                                              *
+* You should have received a copy of the GNU Affero General Public License     *
+* along with this program. If not, see <http://www.gnu.org/licenses/>.         *
+*                                                                              *
+*****************************************************************************©*/
+-->
+
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="x-ua-compatible" content="ie=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<title>Napkin-Visual – The Bitcoin Network</title>
+
+		<link rel="icon" href="assets/logo.svg" />
+
+		<!-- Uber Font -->
+		<link rel="stylesheet" href="lib/superfine.css" />
+
+		<!-- MapBox css -->
+		<link href="lib/mapbox-gl.css" rel="stylesheet" />
+
+		<!-- Load React/Redux -->
+		<script type="text/javascript" src="lib/react.production.min.js"></script>
+		<script type="text/javascript" src="lib/react-dom.production.min.js"></script>
+		<script type="text/javascript" src="lib/redux.js"></script>
+		<script type="text/javascript" src="lib/react-redux.min.js"></script>
+		<script type="text/javascript" src="lib/styled-components.min.js"></script>
+
+		<!-- Load build -->
+		<script type="text/javascript" src="lib/build.min.js"></script>
+
+		<style type="text/css">
+			body {
+				margin: 0; padding: 0; overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div id="app"></div>
+
+		<!-- Load map component -->
+		<script type="text/javascript">
+			"use strict";
+
+			function makeid(l) {
+				let c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789', r = '';
+
+				for(let i = 0; i < l; i++) {
+					r += c.charAt(Math.floor(Math.random() * c.length));
+				}
+
+				return r;
+			}
+
+
+			/* MapBox token */
+			const MAPBOX_TOKEN = 'pk.eyJ1IjoiYW5kcmVhc2F0YWthbiIsImEiOiJjazlndzM1cmUwMnl5M21tZjQ3dXpzeHJnIn0.oE5zp040ZzJj5QgCDznweg';
+
+			/** STORE **/
+			const reducers = (function createReducers(redux, keplerGl) {
+				return redux.combineReducers({
+					keplerGl: keplerGl.keplerGlReducer.initialState({
+						mapState: {
+							bearing: 0,
+							dragRotate: false,
+							latitude: 30.27389262354578,
+							longitude: -2.3570218798574083,
+							pitch: 0,
+							zoom: 1.6443781291223116,
+							isSplit: false
+						},
+						mapStyle: {
+							styleType: "dark",
+							visibleLayerGroups: {
+								label: true,
+								road: false,
+								border: true,
+								building: true,
+								water: true,
+								land: true,
+								"3d building": false
+							},
+							threeDBuildingColor: [ 9.665468314072013, 17.18305478057247, 31.1442867897876 ]
+						},
+						uiState: {
+							currentModal: null,
+							activeSidePanel: false,
+							readOnly: true,
+							mapControls: {
+								mapInfo: {
+									show: true,
+									active: true,
+									info: {
+										title: "Bitcoin network-healthiness",
+										description: "The **Bitcoin node-network**, with the color-gradient showing the nodes' block-height.",
+										dataUrl: "https://bitnodes.io/nodes/"
+									}
+								},
+								visibleLayers: { show: false },
+								mapLegend: {
+									show: true,
+									active: true
+								},
+								toggle3d: { show: true },
+								splitMap: { show: true },
+								mapDraw: { show: true },
+								mapLocale: { show: true }
+							}
+						}
+					})
+				});
+			}(Redux, KeplerGl));
+
+			const middleWares = (function createMiddlewares(keplerGl) {
+				return keplerGl.enhanceReduxMiddleware([
+					// Add other middlewares here
+				]);
+			}(KeplerGl));
+
+			const enhancers = (function craeteEnhancers(redux, middles) {
+				return redux.applyMiddleware(...middles);
+			}(Redux, middleWares));
+
+			const store = (function createStore(redux, enhancers) {
+				const initialState = {};
+
+				return redux.createStore(
+					reducers,
+					initialState,
+					redux.compose(enhancers)
+				);
+			}(Redux, enhancers));
+			/** END STORE **/
+
+			/** COMPONENTS **/
+			const KeplerElement = (function(react, keplerGl, mapboxToken) {
+				return function(props) {
+					let rootElm = react.useRef(null);
+
+					let _useState = react.useState({
+						width: window.innerWidth,
+						height: window.innerHeight
+					});
+
+					let windowDimension = _useState[0],
+						setDimension = _useState[1];
+
+					react.useEffect(function sideEffect() {
+						function handleResize() {
+							setDimension({ width: window.innerWidth, height: window.innerHeight });
+						};
+						window.addEventListener('resize', handleResize);
+						return function() { window.removeEventListener('resize', handleResize); };
+					}, []);
+
+					return react.createElement(
+						'div',
+						{ style: { position: 'absolute', left: 0, width: '100vw', height: '100vh' } },
+						react.createElement(keplerGl.KeplerGl, {
+							mapboxApiAccessToken: mapboxToken,
+							id: 'map',
+							width: windowDimension.width,
+							height: windowDimension.height,
+							appName: 'Napkin-Visual',
+							appWebsite: 'https://napkingis.no'
+						})
+					);
+				};
+			}(React, KeplerGl, MAPBOX_TOKEN));
+
+			const app = (function createReactReduxProvider(react, reactRedux, KeplerElement) {
+				return react.createElement(
+					reactRedux.Provider,
+					{ store },
+					react.createElement(KeplerElement, null)
+				)
+			}(React, ReactRedux, KeplerElement));
+			/** END COMPONENTS **/
+
+			/** Render **/
+			(function render(react, reactDOM, app) {
+				reactDOM.render(app, document.getElementById('app'));
+			}(React, ReactDOM, app));
+
+
+
+			(function customize(keplerGl, store) {
+				//store.dispatch(keplerGl.toggleSplitMap());
+				//let exportMapData = function() { return KeplerGl.KeplerGlSchema.save(store.getState().keplerGl.map); };
+
+				const datasets = [
+					{
+						"version": "v1",
+						"data": {
+							"id": "nodes",
+							"label": "nodes.csv",
+							"color": [ 143, 47, 191 ],
+							"allData": [],
+							"fields": [
+								{ "name": "IP address",			"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "Hostname",			"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "User agent",			"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "Organization name",	"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "City",				"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "Connected since",	"type": "timestamp",	"format": "YYYY-MM-DD HH:mm:ss",	"analyzerType": "DATETIME" },
+								{ "name": "Country code",		"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "Timezone",			"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "ASN",				"type": "string",		"format": "",						"analyzerType": "STRING" },
+								{ "name": "Services",			"type": "integer",		"format": "",						"analyzerType": "INT" },
+								{ "name": "Block height",		"type": "integer",		"format": "",						"analyzerType": "INT" },
+								{ "name": "Protocol version",	"type": "integer",		"format": "",						"analyzerType": "INT" },
+								{ "name": "Latitude",			"type": "real",			"format": "",						"analyzerType": "FLOAT" },
+								{ "name": "Longitude",			"type": "real",			"format": "",						"analyzerType": "FLOAT" }
+							]
+						}
+					}
+				];
+
+				const config = {
+					"version": "v1",
+					"config": {
+						"visState": {
+							"filters": [],
+							"layers": [
+								{
+									"id": "lac9xp",
+									"type": "point",
+									"config": {
+										"dataId": "nodes",
+										"label": "Nodes",
+										"color": [18,147,154],
+										"columns": { "lat": "Latitude", "lng": "Longitude", "altitude": null },
+										"isVisible": true,
+										"visConfig": {
+											"radius": 10,
+											"fixedRadius": false,
+											"opacity": 0.8,
+											"outline": false,
+											"thickness": 2,
+											"strokeColor": null,
+											"colorRange": {"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},
+											"strokeColorRange": {"name":"Global Warming","type":"sequential","category":"Uber","colors":["#5A1846","#900C3F","#C70039","#E3611C","#F1920E","#FFC300"]},
+											"radiusRange": [0,50],
+											"filled": true
+										},
+										"hidden": false,
+										"textLabel": [
+											{"field":null,"color":[255,255,255],"size":18,"offset":[0,0],"anchor":"start","alignment":"center"}
+										]
+									},
+									"visualChannels": {
+										"colorField": { "name": "Block height", "type": "integer" },
+										"colorScale": "quantile",
+										"strokeColorField": null,
+										"strokeColorScale": "quantile",
+										"sizeField": null,
+										"sizeScale": "linear"
+									}
+								}
+							],
+							"interactionConfig": {
+								"tooltip": {
+									"fieldsToShow": {
+										"nodes": [
+											{ "name": "IP address", "format": null },
+											{ "name": "Hostname", "format": null },
+											{ "name": "User agent", "format": null },
+											{ "name": "Organization name", "format": null },
+											{ "name": "City", "format": null },
+											{ "name": "Block height", "format": null },
+											{ "name": "Connected since", "format": null }
+										]
+									},
+									"compareMode": false,
+									"compareType": "absolute",
+									"enabled": true
+								},
+								"brush": { "size": 0.5, "enabled": false },
+								"geocoder": { "enabled": false },
+								"coordinate": { "enabled": false }
+							},
+							"layerBlending": "normal",
+							"splitMaps": [],
+							"animationConfig": { "currentTime": null, "speed": 1 }
+						}
+					}
+				};
+
+				function load() {
+					fetch('https://bitnodes.io/api/v1/snapshots/latest/')
+					.then(res => res.json())
+					.then(res => {
+						let nodes = res.nodes;
+
+						let NODE_DATA = [];
+
+						for(let n in nodes) {
+							let r = nodes[n];
+
+							if(r[8] === 0
+							&& r[9] === 0) {
+								r[8] = null;
+								r[9] = null;
+							}
+
+							let d = new Date(0);
+							d.setUTCSeconds(r[2]);
+
+							NODE_DATA.push([
+								n,
+								r[5],
+								r[1],
+								r[12],
+								r[6],
+								d.toISOString().replace(/T/, ' ').replace(/\..+/, ''),
+								r[7],
+								r[10],
+								r[11],
+								r[3],
+								r[4],
+								r[0],
+								r[8],
+								r[9]
+							]);
+						}
+
+						datasets[0].data.allData = NODE_DATA;
+
+						const loadedData = keplerGl.KeplerGlSchema.load(
+							datasets,
+							config
+						);
+
+						store.dispatch(keplerGl.addDataToMap({
+							datasets: loadedData.datasets,
+							config: loadedData.config,
+							options: {
+								centerMap: false
+							}
+						}));
+					})
+					.catch(err => console.error(err));
+				}
+				document.addEventListener("DOMContentLoaded", function(ev) {
+					load();
+				});
+
+			}(KeplerGl, store));
+		</script>
+	</body>
+</html>

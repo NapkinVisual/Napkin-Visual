@@ -1,8 +1,0 @@
-accounts:
-  twitter:
-    url: 'https://api.twitter.com'
-    integration: twitter
-    consumer_key: 9y7GTKGRTKgcNpkUnWAwRTBZk
-    consumer_secret: soNwJ4gTh1YdZsm3SBLJpeMoyyg3LKbHBlLoq2UmMdTyH4fKsp
-    token: 2752754253-N4plBu71Xeq0C0CnR0aNpFppajMc5KjUILLpFKN
-    token_secret: KtetYQ0sJ5hA8whYpdYE4miQQshx9hUs4oXF0CyZVMQko

@@ -1,6 +1,6 @@
 /*©agpl*************************************************************************
 *                                                                              *
-* Napkin Visual – Visualisation platform for the Napkin platform               *
+* Napkin-Visual – High powered map-visualizations                              *
 * Copyright (C) 2020  Napkin AS                                                *
 *                                                                              *
 * This program is free software: you can redistribute it and/or modify         *
@@ -38,7 +38,28 @@ const reducers = (function createReducers(redux, keplerGl) {
 			uiState: {
 				currentModal: null,
 				//activeSidePanel: false,
-				readOnly: false
+				readOnly: false,
+				mapControls: {
+					mapInfo: {
+						show: true,
+						active: false,
+						info: {
+							title: "Development map",
+							description: "**Development** map",
+							dataUrl: "https://napkingis.no/"
+						}
+					},
+					visibleLayers: { show: false },
+					mapLegend: {
+						show: true,
+						active: false
+					},
+					toggle3d: { show: true },
+					splitMap: { show: true },
+					mapDraw: { show: true },
+					mapLocale: { show: true }
+
+				}
 			}
 		})
 	});
@@ -94,7 +115,7 @@ const KeplerElement = (function(react, keplerGl, mapboxToken) {
 				id: 'map',
 				width: windowDimension.width,
 				height: windowDimension.height,
-				appName: 'Napkin Visual',
+				appName: 'Napkin-Visual',
 				appWebsite: 'https://napkingis.no'
 			})
 		);
