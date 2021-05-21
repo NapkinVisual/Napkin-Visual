@@ -45,8 +45,7 @@ const reducers = (function createReducers(redux, keplerGl) {
 						active: false,
 						info: {
 							title: "Development map",
-							description: "**Development** map",
-							dataUrl: "https://napkingis.no/"
+							description: "**Development** map"
 						}
 					},
 					visibleLayers: { show: false },
