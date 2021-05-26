@@ -22,45 +22,42 @@ import csv
 import json
 import requests
 import time
+import random
 import sqlite3
 
+from shapely.geometry import shape #Point, Polygon
 
-def transform(inpFile):
-	with open(inpFile, mode='r') as fileIn,\
-		 open('res.csv', mode='w') as fileOut:
-		reader = csv.reader(fileIn, delimiter=',')
-		writer = csv.writer(fileOut, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+def transform():
+	with open('Vindkraftanlegg.geojson', mode='r') as Anlegg,\
+		 open('Vindturbiner.geojson', mode='r') as Turbiner,\
+		 open('Vindkraftanlegg-Out.geojson', mode='w') as AnleggOut,\
+		 open('Vindturbiner-Out.geojson', mode='w') as TurbinerOut:
+		anlegg = json.load(Anlegg)
+		turbiner = json.load(Turbiner)
 
-		writer.writerow([
-			"Node Id",
-			"Last Seen",
-			"Host",
-			"Port",
-			"Country",
-			"Client",
-			"Type",
-			"OS",
-			"Lat",
-			"Lng"
-		])
+		for a in anlegg['features']:
+			if a['properties']['idriftDato'] == None:
+				m = random.randint(1, 12)
+				m = f'0{m}' if len(str(m)) < 2 else str(m)
+				d = random.randint(1, 28)
+				d = f'0{d}' if len(str(d)) < 2 else str(d)
 
-		first = True
-		for row in reader:
-			if first:
-				first = False
-				continue
+				a['properties']['idriftDato'] = f'2020{m}{d}'
+				a['properties']['driftDato'] = f'2020-{m}-{d} 00:00:00'
+			else:
+				d = a['properties']['idriftDato']
+				a['properties']['driftDato'] = f'{d[0:4]}-{d[4:6]}-{d[6:8]} 00:00:00'
 
-			res = requests.get('http://api.ipstack.com/' + row[2], params={'access_key': 'f8f71a9ff0c7bc867965536296df19f9'})
-			res = res.json()
-			print(res)
-			print(' ')
+		for t in turbiner['features']:
+			p = shape(t['geometry'])
+			for a in anlegg['features']:
+				if p.within( shape(a['geometry']) ):
+					t['properties']['idriftDato'] = a['properties']['idriftDato']
+					t['properties']['driftDato'] = a['properties']['driftDato']
+					break
 
-			#if res['status'] == 'fail': continue
-
-			row.append(res['latitude'])
-			row.append(res['longitude'])
-			writer.writerow(row)
-			#time.sleep(0.5)
+		json.dump(anlegg, AnleggOut)
+		json.dump(turbiner, TurbinerOut)
 
 
 def database():
@@ -96,7 +93,7 @@ def geojson():
 
 
 def main():
-	transform('ethereum-nodes.csv')
+	transform()
 	#database()
 	#geojson()
 
