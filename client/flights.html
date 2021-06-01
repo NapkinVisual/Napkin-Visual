@@ -326,7 +326,7 @@
 				let h = new Headers();
 				h.append('Authorization', 'Basic ' + btoa('Andreas_A:0z1Vj5Ja8CqM'));
 
-				function load() {
+				function load(first) {
 					fetch('https://opensky-network.org/api/states/all', { headers: h })
 					.then(res => res.json())
 					.then(res => {
@@ -338,23 +338,24 @@
 
 						const loadedData = keplerGl.KeplerGlSchema.load(
 							datasets,
-							config
+							!first ? null : config
 						);
 
 						store.dispatch(keplerGl.addDataToMap({
 							datasets: loadedData.datasets,
 							config: loadedData.config,
 							options: {
-								centerMap: false
+								centerMap: false,
+								keepExistingConfig: !first
 							}
 						}));
 
-						setTimeout(load, 5500);
+						setTimeout(function() { load(false); }, 5500);
 					})
 					.catch(err => console.error(err));
 				}
 				document.addEventListener("DOMContentLoaded", function(ev) {
-					load();
+					load(true);
 				});
 
 				// https://opensky-network.org/apidoc/rest.html

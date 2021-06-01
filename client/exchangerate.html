@@ -324,15 +324,15 @@
 
 				let rand = (min, max) => Math.random() * (max - min) + min;
 
-				function load() {
-					let data = datasets[0].data.allData;
-					let eurRate;
+				function load(first) {
+					let j = 0.01,
+						eurRate;
+					var data = datasets;
 
-					for(let i = 0; i < data.length; i++) {
-						let r = datasets[0].data.allData[i], rate;
+					for(let i = 0; i < data[0].data.allData.length; i++) {
+						let r = data[0].data.allData[i], rate;
 
 						if(r[1] == 'United States of America') continue;
-						let j = 0.2;
 
 						if(r[3] == 'EUR') {
 							if(!eurRate) eurRate = rand(r[2] - j, r[2] + j);
@@ -341,24 +341,25 @@
 							rate = rand(r[2] - j, r[2] + j);
 						}
 
-						datasets[0].data.allData[i][0].properties.exchange_rate = rate;
-						datasets[0].data.allData[i][2] = rate;
+						data[0].data.allData[i][0].properties.exchange_rate = rate;
+						data[0].data.allData[i][2] = rate;
 					}
 
 					const loadedData = keplerGl.KeplerGlSchema.load(
-						datasets,
-						config
+						data,
+						!first ? null : config
 					);
 
 					store.dispatch(keplerGl.addDataToMap({
 						datasets: loadedData.datasets,
 						config: loadedData.config,
 						options: {
-							centerMap: false
+							centerMap: false,
+							keepExistingConfig: !first
 						}
 					}));
 
-					setTimeout(load, 500);
+					setTimeout(function() { load(false); }, 200);
 				}
 
 				fetch('https://v6.exchangerate-api.com/v6/932d4cd4dc82dfdb55eda16e/latest/USD')
@@ -377,7 +378,7 @@
 						]);
 					}
 
-					load();
+					load(true);
 				});
 
 			}(KeplerGl, store));

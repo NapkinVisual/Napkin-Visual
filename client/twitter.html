@@ -287,7 +287,7 @@
 				};
 
 
-				function load() {
+				function load(first) {
 					let data = datasets[0].data.allData;
 					for(let i = 0; i < data.length; i++) {
 						if(data[i][3] > 3)
@@ -302,20 +302,21 @@
 
 					const loadedData = keplerGl.KeplerGlSchema.load(
 						datasets,
-						config
+						!first ? null : config
 					);
 
 					store.dispatch(keplerGl.addDataToMap({
 						datasets: loadedData.datasets,
 						config: loadedData.config,
 						options: {
-							centerMap: false
+							centerMap: false,
+							keepExistingConfig: !first
 						}
 					}));
 
-					setTimeout(load, 3000);
+					setTimeout(function() { load(false); }, 3000);
 				}
-				load();
+				load(true);
 
 			}(KeplerGl, store));
 		</script>
