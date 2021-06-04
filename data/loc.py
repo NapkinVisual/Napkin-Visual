@@ -25,39 +25,23 @@ import time
 import random
 import sqlite3
 
-from shapely.geometry import shape #Point, Polygon
+#from shapely.geometry import shape
 
 def transform():
-	with open('Vindkraftanlegg.geojson', mode='r') as Anlegg,\
-		 open('Vindturbiner.geojson', mode='r') as Turbiner,\
-		 open('Vindkraftanlegg-Out.geojson', mode='w') as AnleggOut,\
-		 open('Vindturbiner-Out.geojson', mode='w') as TurbinerOut:
-		anlegg = json.load(Anlegg)
-		turbiner = json.load(Turbiner)
+	with open('Gran - Fremmedarter.csv', mode='r') as In,\
+		 open('out.csv', mode='w') as Out:
+		reader = csv.reader(In, delimiter=';', quotechar='"')
+		writer = csv.writer(Out, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-		for a in anlegg['features']:
-			if a['properties']['idriftDato'] == None:
-				m = random.randint(1, 12)
-				m = f'0{m}' if len(str(m)) < 2 else str(m)
-				d = random.randint(1, 28)
-				d = f'0{d}' if len(str(d)) < 2 else str(d)
+		writer.writerow(['Institusjon', 'Samling', 'Kategori', 'Vitenskapelig navn', 'Autor', 'Norsk navn', 'Artsgruppe', 'Finner/Samler', 'Funndato', 'Lokalitet', 'Presisjon', 'Kommune', 'Fylke', 'Antall', 'Funnegenskaper', 'Artsbestemt av', 'Validert', 'Katalognummer', 'Latitude', 'Longitude', 'Art rang', 'Aktivitet', 'Uspontan', 'Usikker artsbestemmelse', 'Bildedokumentasjon', 'Ikke funnet', 'Ikke gjennfunnet', 'Identifikasjonsdato', 'Datasettnavn', 'Notater', 'Habitat', 'Kjønn', 'Innsamlingsmetode', 'Intern dataid', 'Felt id', 'Målemetode', 'Georeferanse kommentar', 'Prepareringsmetode', 'Andre Katalognummer', 'Relaterte ressurser', 'Type kobling til ressurs', 'Typestatus', 'Tidspunkt', 'Maks høyde over havet', 'Min høyde over havet', 'Dybde', 'Dynamiske egenskaper', 'Nodeid', 'Institusjonskode', 'Samlingskode'])
 
-				a['properties']['idriftDato'] = f'2020{m}{d}'
-				a['properties']['driftDato'] = f'2020-{m}-{d} 00:00:00'
-			else:
-				d = a['properties']['idriftDato']
-				a['properties']['driftDato'] = f'{d[0:4]}-{d[4:6]}-{d[6:8]} 00:00:00'
+		first = True
+		for row in reader:
+			if first: first = False; continue
 
-		for t in turbiner['features']:
-			p = shape(t['geometry'])
-			for a in anlegg['features']:
-				if p.within( shape(a['geometry']) ):
-					t['properties']['idriftDato'] = a['properties']['idriftDato']
-					t['properties']['driftDato'] = a['properties']['driftDato']
-					break
-
-		json.dump(anlegg, AnleggOut)
-		json.dump(turbiner, TurbinerOut)
+			d = row[8].split('.')
+			row[8] = f'{d[2]}-{d[1]}-{d[0]} 00:00:00'
+			writer.writerow(row)
 
 
 def database():
