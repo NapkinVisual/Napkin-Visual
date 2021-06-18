@@ -28,12 +28,12 @@ import sqlite3
 #from shapely.geometry import shape
 
 def transform():
-	with open('Gran - Fremmedarter.csv', mode='r') as In,\
+	with open('Thalictrum minus.csv', mode='r') as In,\
 		 open('out.csv', mode='w') as Out:
-		reader = csv.reader(In, delimiter=';', quotechar='"')
-		writer = csv.writer(Out, delimiter=';', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		reader = csv.reader(In, delimiter=',', quotechar='"')
+		writer = csv.writer(Out, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
 
-		writer.writerow(['Institusjon', 'Samling', 'Kategori', 'Vitenskapelig navn', 'Autor', 'Norsk navn', 'Artsgruppe', 'Finner/Samler', 'Funndato', 'Lokalitet', 'Presisjon', 'Kommune', 'Fylke', 'Antall', 'Funnegenskaper', 'Artsbestemt av', 'Validert', 'Katalognummer', 'Latitude', 'Longitude', 'Art rang', 'Aktivitet', 'Uspontan', 'Usikker artsbestemmelse', 'Bildedokumentasjon', 'Ikke funnet', 'Ikke gjennfunnet', 'Identifikasjonsdato', 'Datasettnavn', 'Notater', 'Habitat', 'Kjønn', 'Innsamlingsmetode', 'Intern dataid', 'Felt id', 'Målemetode', 'Georeferanse kommentar', 'Prepareringsmetode', 'Andre Katalognummer', 'Relaterte ressurser', 'Type kobling til ressurs', 'Typestatus', 'Tidspunkt', 'Maks høyde over havet', 'Min høyde over havet', 'Dybde', 'Dynamiske egenskaper', 'Nodeid', 'Institusjonskode', 'Samlingskode'])
+		writer.writerow(['Institusjon','Samling','Kategori','Vitenskapelig navn','Autor','Norsk navn','Artsgruppe','Finner/Samler','Funndato','Lokalitet','Presisjon','Kommune','Fylke','Antall','Funnegenskaper','Artsbestemt av','Validert','Katalognummer','Latitude','Longitude','Art rang','Aktivitet','Uspontan','Usikker artsbestemmelse','Bildedokumentasjon','Ikke funnet','Ikke gjennfunnet','Endringsdato','Identifikasjonsdato','OccurenceId','Datasettnavn','Notater','Habitat','Kjønn','Innsamlingsmetode','Intern dataid','Felt id','Målemetode','Georeferanse kommentar','Prepareringsmetode','Andre Katalognummer','Relaterte ressurser','Type kobling til ressurs','Typestatus','Tidspunkt','Maks høyde over havet','Min høyde over havet','Dybde','Dynamiske egenskaper','Nodeid','Institusjonskode','Samlingskode'])
 
 		first = True
 		for row in reader:
@@ -57,29 +57,37 @@ def database():
 
 
 def geojson():
-	with open('map.geojson', mode='r') as fileIn, \
-		 open('map2.geojson', mode='w') as fileOut:
+	with open('Skredhendelse.geojson', mode='r') as fileIn, \
+		 open('out.geojson', mode='w') as fileOut:
 		data = json.load(fileIn)
+		ndata = {"type": "FeatureCollection", "features": []}
 
 		for f in data['features']:
-			curr = { 'United States of America': 'USD', 'United Arab Emirates': 'AED', 'Argentina': 'ARS', 'Australia': 'AUD', 'Bulgaria': 'BGN', 'Brazil': 'BRL', 'Bahamas': 'BSD', 'Canada': 'CAD', 'Switzerland': 'CHF', 'Chile': 'CLP', 'China': 'CNY', 'Colombia': 'COP', 'Czechia': 'CZK', 'Denmark ': 'DKK', 'Dominican Rep.': 'DOP', 'Egypt': 'EGP', 'Finland': 'EUR', 'Estonia': 'EUR', 'Latvia': 'EUR', 'Lithuania': 'EUR', 'Ireland': 'EUR', 'Germany': 'EUR', 'France': 'EUR', 'Netherlands': 'EUR', 'Belgium': 'EUR', 'Luxembourg': 'EUR', 'Austria': 'EUR', 'Slovakia': 'EUR', 'Slovenia': 'EUR', 'Italy': 'EUR', 'Greece': 'EUR', 'Spain': 'EUR', 'Portugal': 'EUR', 'Montenegro': 'EUR', 'Kosovo': 'EUR', 'Fiji': 'FJD', 'United Kingdom': 'GBP', 'Guatemala': 'GTQ', 'Hong Kong': 'HKD', 'Croatia': 'HRK', 'Hungary': 'HUF', 'Indonesia': 'IDR', 'Israel': 'ILS', 'India': 'INR', 'Iceland': 'ISK', 'Japan': 'JPY', 'South Korea': 'KRW', 'Kazakhstan': 'KZT', 'Maldivene': 'MVR', 'Mexico': 'MXN', 'Malaysia': 'MYR', 'Norway': 'NOK', 'New Zealand': 'NZD', 'Panama': 'PAB', 'Peru': 'PEN', 'Philippines': 'PHP', 'Pakistan': 'PKR', 'Poland': 'PLN', 'Paraguay': 'PYG', 'Romania': 'RON', 'Russia': 'RUB', 'Saudi Arabia': 'SAR', 'Sweden': 'SEK', 'Singapore': 'SGD', 'Thailand': 'THB', 'Turkey': 'TRY', 'Taiwan': 'TWD', 'Ukraine': 'UAH', 'Uruguay': 'UYU', 'South Africa': 'ZAR' }
+			if f['properties']['totAntPersOmkommet']:
+				ndata['features'].append(f)
 
-			name = f['properties']['NAME']
-			if not name in curr:
-				print(name)
-				continue
+#			year = dt[0:4]
+#			month = dt[4:6]
+#			day = dt[6:8]
+#			ndt = f'{year}-{month}-{day}'
+#
+#			if len(dt) > 8:
+#				hour = dt[8:10]
+#				minute = dt[10:12]
+#				second = dt[12:14]
+#				ndt = f'{ndt} {hour}:{minute}:{second}'
+#			else:
+#				ndt = f'{ndt} 00:00:00'
+#
+#			f['properties']['skredTidspunkt'] = ndt
 
-			f['properties']['currency'] = curr[ f['properties']['NAME'] ]
-			f['properties']['exchange_rate'] = 0
-
-
-		json.dump(data, fileOut)
+		json.dump(ndata, fileOut)
 
 
 def main():
-	transform()
+	#transform()
 	#database()
-	#geojson()
+	geojson()
 
 
 if __name__ == '__main__':

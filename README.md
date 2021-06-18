@@ -19,3 +19,7 @@ This project is based on the deck.gl rendering library, kepler.gl and Mapbox bas
 - [The Bitcoin Lightning network](https://visual.napkingis.no/lightning-network.html)
 - [The Ethereum node-network](https://visual.napkingis.no/ethereum-network.html)
 - [Reynoutria Japonica spread in Norway](https://visual.napkingis.no/reynoutria-japonica.html)
+- [Spread of alien spruce species in Norway](https://visual.napkingis.no/gran-picea.html)
+- [Spread of Rosa rugosa vs. Thalictrum minus in Norway](https://visual.napkingis.no/rynkerose-kystfrøstjerne.html)
+- [A historical map of all fatal landslides in Norway](https://visual.napkingis.no/skred.html)
+
