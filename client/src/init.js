@@ -115,7 +115,7 @@ const KeplerElement = (function(react, keplerGl, mapboxToken) {
 				width: windowDimension.width,
 				height: windowDimension.height,
 				appName: 'Napkin-Visual',
-				appWebsite: 'https://napkingis.no'
+				appWebsite: 'https://napkin.no'
 			})
 		);
 	};
