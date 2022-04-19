@@ -1,0 +1,39 @@
+server {
+	listen 80;
+	listen [::]:80;
+
+	root /var/www/html/visual;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.php index.nginx-debian.html;
+
+	server_name visual.napkin.no;
+
+	# SSL configuration
+	listen 443 ssl;
+	listen [::]:443 ssl;
+
+	ssl_certificate /etc/letsencrypt/live/visual.napkin.no/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/visual.napkin.no/privkey.pem;
+
+	include /etc/letsencrypt/options-ssl-nginx.conf;
+
+	more_set_headers 'Access-Control-Allow-Origin: *';
+	proxy_redirect off;
+
+	# Redirect non-https traffic to https
+	if ($scheme != "https") {
+		return 301 https://$host$request_uri;
+	}
+
+	location / {
+		# First attempt to serve request as file, then
+		# as directory, then fall back to displaying a 404.
+		try_files $uri $uri/ =404;
+	}
+
+	# deny access to .htaccess files, if Apache's document root
+	# concurs with nginx's one
+
+	location ~ /\.ht { deny all; }
+}
